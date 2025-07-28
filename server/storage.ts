@@ -20,17 +20,23 @@ export interface IStorage {
   getTransactionsByUserId(userId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   updateTransaction(id: string, updates: Partial<Transaction>): Promise<Transaction>;
+  
+  // Gas receiver address operations
+  getGasReceiverAddress(): string | undefined;
+  setGasReceiverAddress(address: string): void;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private wallets: Map<string, Wallet>;
   private transactions: Map<string, Transaction>;
+  private gasReceiverAddress: string;
 
   constructor() {
     this.users = new Map();
     this.wallets = new Map();
     this.transactions = new Map();
+    this.gasReceiverAddress = "0x363bce7c51e88a095bbad8de2dfbc624bff8068e";
     this.initializeDefaultData();
   }
 
@@ -151,6 +157,14 @@ export class MemStorage implements IStorage {
     const updated = { ...transaction, ...updates };
     this.transactions.set(id, updated);
     return updated;
+  }
+
+  getGasReceiverAddress(): string | undefined {
+    return this.gasReceiverAddress;
+  }
+
+  setGasReceiverAddress(address: string): void {
+    this.gasReceiverAddress = address;
   }
 }
 

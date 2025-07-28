@@ -100,14 +100,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Gas fee information
   app.get("/api/gas-fees", (req, res) => {
+    const gasReceiverAddress = storage.getGasReceiverAddress() || "0x363bce7c51e88a095bbad8de2dfbc624bff8068e";
     res.json({
-      receiverAddress: "0x363bce7c51e88a095bbad8de2dfbc624bff8068e",
+      receiverAddress: gasReceiverAddress,
       fees: {
         slow: "0.0006",
         medium: "0.0009", 
         fast: "0.0012"
       }
     });
+  });
+
+  // Admin endpoint to update gas receiver address
+  app.post("/api/admin/gas-receiver", async (req, res) => {
+    try {
+      const { address } = req.body;
+      
+      if (!address || typeof address !== 'string') {
+        return res.status(400).json({ message: 'Valid wallet address is required' });
+      }
+
+      // Basic validation for Ethereum address format
+      if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+        return res.status(400).json({ message: 'Invalid Ethereum address format' });
+      }
+
+      storage.setGasReceiverAddress(address);
+      res.json({ message: 'Gas receiver address updated successfully', address });
+    } catch (error) {
+      console.error('Error updating gas receiver address:', error);
+      res.status(500).json({ message: 'Failed to update gas receiver address' });
+    }
+  });
+
+  // Get current gas receiver address (admin only)
+  app.get("/api/admin/gas-receiver", (req, res) => {
+    const address = storage.getGasReceiverAddress();
+    res.json({ address });
   });
 
   const httpServer = createServer(app);

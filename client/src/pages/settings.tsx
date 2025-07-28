@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,12 +6,57 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(true);
   const [customRpc, setCustomRpc] = useState('');
   const [gasMultiplier, setGasMultiplier] = useState('1.0');
+  const [newGasAddress, setNewGasAddress] = useState('');
   const { toast } = useToast();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  // Fetch current gas receiver address (admin only)
+  const { data: gasReceiverData } = useQuery({
+    queryKey: ['/api/admin/gas-receiver'],
+    enabled: user?.username === 'admin',
+  });
+
+  // Update gas receiver address mutation
+  const updateGasReceiver = useMutation({
+    mutationFn: async (address: string) => {
+      return await apiRequest('/api/admin/gas-receiver', {
+        method: 'POST',
+        body: JSON.stringify({ address }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/gas-receiver'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/gas-fees'] });
+      toast({
+        title: "Gas Receiver Updated",
+        description: "Gas receiver address has been updated successfully",
+      });
+      setNewGasAddress('');
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Update Failed",
+        description: error.message || "Failed to update gas receiver address",
+        variant: "destructive",
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (gasReceiverData?.address) {
+      setNewGasAddress(gasReceiverData.address);
+    }
+  }, [gasReceiverData]);
 
   const handleSaveSettings = () => {
     toast({
@@ -133,6 +178,39 @@ export default function Settings() {
           </div>
         </CardContent>
       </Card>
+
+      {user?.username === 'admin' && (
+        <Card className="glass-card border-0">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Admin Settings</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="gasReceiver">Gas Fee Receiver Address</Label>
+                <div className="flex space-x-2">
+                  <Input
+                    id="gasReceiver"
+                    type="text"
+                    value={newGasAddress}
+                    onChange={(e) => setNewGasAddress(e.target.value)}
+                    className="bg-primary border-gray-600 focus:border-accent"
+                    placeholder="0x..."
+                  />
+                  <Button 
+                    onClick={() => updateGasReceiver.mutate(newGasAddress)}
+                    disabled={updateGasReceiver.isPending || !newGasAddress || newGasAddress === gasReceiverData?.address}
+                    className="px-6"
+                  >
+                    {updateGasReceiver.isPending ? 'Updating...' : 'Update'}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Configure the wallet address where gas fees will be collected
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

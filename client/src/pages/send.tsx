@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-// These components exist but not using them directly in this implementation
+import { Copy, QrCode, ExternalLink } from 'lucide-react';
+import QRCode from 'qrcode';
 
 interface GasPaymentSectionProps {
   gasFeePaid: boolean;
@@ -18,11 +19,47 @@ interface GasPaymentSectionProps {
 }
 
 function GasPaymentSection({ gasFeePaid, onConfirmPayment, receiverAddress }: GasPaymentSectionProps) {
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
+  const [showQrCode, setShowQrCode] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (receiverAddress) {
+      // Generate QR code for the wallet address
+      QRCode.toDataURL(receiverAddress, {
+        width: 200,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      })
+      .then(url => setQrCodeUrl(url))
+      .catch(err => console.error('QR code generation failed:', err));
+    }
+  }, [receiverAddress]);
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied!",
+        description: "Wallet address copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Copy failed",
+        description: "Please copy the address manually",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (gasFeePaid) {
     return (
       <div className="glass-card bg-green-500 bg-opacity-10 border border-green-500 border-opacity-30 rounded-lg p-4">
         <div className="flex items-center space-x-3 text-green-500">
-          <i className="fas fa-check text-xl"></i>
+          <ExternalLink className="w-5 h-5" />
           <span className="font-semibold">Gas payment confirmed</span>
         </div>
       </div>
@@ -32,20 +69,61 @@ function GasPaymentSection({ gasFeePaid, onConfirmPayment, receiverAddress }: Ga
   return (
     <div className="glass-card bg-yellow-500 bg-opacity-10 border border-yellow-500 border-opacity-30 rounded-lg p-4">
       <div className="flex items-start space-x-3">
-        <i className="fas fa-gas-pump text-yellow-500 text-xl mt-1"></i>
+        <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-1">
+          <span className="text-black text-xs font-bold">!</span>
+        </div>
         <div className="flex-1">
           <h4 className="font-semibold text-yellow-500 mb-2">Gas Fee Payment Required</h4>
-          <p className="text-sm text-muted-foreground mb-3">Send ETH gas fee to complete the transaction:</p>
-          <div className="bg-primary rounded-lg p-3 mb-3">
-            <p className="text-xs text-muted-foreground mb-1">Gas Receiver Address:</p>
-            <p className="font-mono text-sm break-all">{receiverAddress}</p>
+          <p className="text-sm text-muted-foreground mb-4">Send ETH gas fee to the address below to complete your transaction:</p>
+          
+          <div className="bg-secondary rounded-lg p-4 mb-4 border border-gray-700">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs text-muted-foreground">Gas Receiver Address:</p>
+              <div className="flex space-x-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowQrCode(!showQrCode)}
+                  className="text-xs h-8 px-2"
+                >
+                  <QrCode className="w-4 h-4 mr-1" />
+                  QR
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => copyToClipboard(receiverAddress)}
+                  className="text-xs h-8 px-2"
+                >
+                  <Copy className="w-4 h-4 mr-1" />
+                  Copy
+                </Button>
+              </div>
+            </div>
+            <p className="font-mono text-sm break-all bg-primary rounded p-2 mb-3">{receiverAddress}</p>
+            
+            {showQrCode && qrCodeUrl && (
+              <div className="flex justify-center mt-3 p-3 bg-white rounded-lg">
+                <img src={qrCodeUrl} alt="Wallet Address QR Code" className="w-48 h-48" />
+              </div>
+            )}
           </div>
-          <Button
-            onClick={onConfirmPayment}
-            className="bg-yellow-500 text-black hover:bg-yellow-600"
-          >
-            I have paid the gas fee
-          </Button>
+
+          <div className="flex space-x-3">
+            <Button
+              onClick={onConfirmPayment}
+              className="bg-yellow-500 text-black hover:bg-yellow-600 flex-1"
+            >
+              I've Sent the Gas Fee
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setShowQrCode(!showQrCode)}
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black"
+            >
+              <QrCode className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
