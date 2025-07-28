@@ -47,6 +47,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok) {
         const data = await response.json();
+        
+        // Check if user has active subscription (skip for existing admin users)
+        if (username !== 'admin' && username !== 'SoftwareHenry') {
+          try {
+            const subResponse = await fetch(`/api/subscriptions/${data.user.id}`);
+            if (subResponse.ok) {
+              const subscription = await subResponse.json();
+              if (!subscription || subscription.status !== 'active') {
+                return false; // No active subscription
+              }
+            } else {
+              return false; // No subscription found
+            }
+          } catch (subError) {
+            return false; // Subscription check failed
+          }
+        }
+        
         setUser(data.user);
         localStorage.setItem('auth_token', data.token);
         localStorage.setItem('auth_user', JSON.stringify(data.user));

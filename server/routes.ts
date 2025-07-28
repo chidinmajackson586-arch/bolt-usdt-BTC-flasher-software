@@ -63,10 +63,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const transactionData = insertTransactionSchema.parse(req.body);
       
-      // Validate gas fee payment for Ethereum-based networks
-      if (["ETH", "BSC"].includes(transactionData.network) && !transactionData.gasFeePaid) {
+      // Validate gas fee payment for all networks
+      if (!transactionData.gasFeePaid) {
         return res.status(400).json({ 
-          message: "Gas fee payment required for Ethereum-based networks" 
+          message: "Gas fee payment required for all transactions" 
         });
       }
 
@@ -140,6 +140,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/admin/gas-receiver", (req, res) => {
     const address = storage.getGasReceiverAddress();
     res.json({ address });
+  });
+
+  // User registration
+  app.post("/api/auth/register", async (req, res) => {
+    try {
+      const { username, password } = loginSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      const user = await storage.createUser({ username, password });
+      res.json({ 
+        user: { id: user.id, username: user.username },
+        message: "Registration successful"
+      });
+    } catch (error) {
+      res.status(400).json({ message: "Registration failed" });
+    }
+  });
+
+  // Subscription plans
+  app.get("/api/subscription-plans", async (req, res) => {
+    try {
+      const plans = await storage.getSubscriptionPlans();
+      res.json(plans);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch subscription plans" });
+    }
+  });
+
+  // Create subscription
+  app.post("/api/subscriptions", async (req, res) => {
+    try {
+      const { userId, planId, paymentTxHash } = req.body;
+      
+      if (!userId || !planId || !paymentTxHash) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const subscription = await storage.createSubscription({
+        userId,
+        planId,
+        paymentTxHash,
+        status: "active",
+        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year
+      });
+
+      res.json(subscription);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create subscription" });
+    }
+  });
+
+  // Get user subscription
+  app.get("/api/subscriptions/:userId", async (req, res) => {
+    try {
+      const subscription = await storage.getUserSubscription(req.params.userId);
+      res.json(subscription || null);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch subscription" });
+    }
   });
 
   const httpServer = createServer(app);

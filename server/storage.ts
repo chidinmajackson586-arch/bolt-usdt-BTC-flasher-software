@@ -1,8 +1,10 @@
 import { 
-  users, wallets, transactions,
+  users, wallets, transactions, subscriptionPlans, userSubscriptions,
   type User, type InsertUser,
   type Wallet, type InsertWallet,
-  type Transaction, type InsertTransaction
+  type Transaction, type InsertTransaction,
+  type SubscriptionPlan, type InsertSubscriptionPlan,
+  type UserSubscription, type InsertUserSubscription
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -24,18 +26,27 @@ export interface IStorage {
   // Gas receiver address operations
   getGasReceiverAddress(): string | undefined;
   setGasReceiverAddress(address: string): void;
+  
+  // Subscription operations
+  getSubscriptionPlans(): Promise<SubscriptionPlan[]>;
+  createSubscription(subscription: InsertUserSubscription): Promise<UserSubscription>;
+  getUserSubscription(userId: string): Promise<UserSubscription | undefined>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private wallets: Map<string, Wallet>;
   private transactions: Map<string, Transaction>;
+  private subscriptionPlans: Map<string, SubscriptionPlan>;
+  private userSubscriptions: Map<string, UserSubscription>;
   private gasReceiverAddress: string;
 
   constructor() {
     this.users = new Map();
     this.wallets = new Map();
     this.transactions = new Map();
+    this.subscriptionPlans = new Map();
+    this.userSubscriptions = new Map();
     this.gasReceiverAddress = "TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y";
     this.initializeDefaultData();
   }
@@ -58,6 +69,35 @@ export class MemStorage implements IStorage {
 
     this.users.set(adminUser.id, adminUser);
     this.users.set(henryUser.id, henryUser);
+
+    // Initialize subscription plans
+    const basicPlan: SubscriptionPlan = {
+      id: randomUUID(),
+      name: "Basic",
+      price: "550",
+      features: ["Basic crypto transactions", "Standard support", "Single wallet"],
+      createdAt: new Date(),
+    };
+
+    const proPlan: SubscriptionPlan = {
+      id: randomUUID(),
+      name: "Pro",
+      price: "950",
+      features: ["Advanced trading tools", "Priority support", "Multiple wallets", "Analytics dashboard"],
+      createdAt: new Date(),
+    };
+
+    const fullPlan: SubscriptionPlan = {
+      id: randomUUID(),
+      name: "Full",
+      price: "3000",
+      features: ["All features", "24/7 dedicated support", "Unlimited wallets", "Advanced analytics", "API access"],
+      createdAt: new Date(),
+    };
+
+    this.subscriptionPlans.set(basicPlan.id, basicPlan);
+    this.subscriptionPlans.set(proPlan.id, proPlan);
+    this.subscriptionPlans.set(fullPlan.id, fullPlan);
 
     // Create default wallets for admin user
     const btcWallet: Wallet = {
@@ -165,6 +205,26 @@ export class MemStorage implements IStorage {
 
   setGasReceiverAddress(address: string): void {
     this.gasReceiverAddress = address;
+  }
+
+  async getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
+    return Array.from(this.subscriptionPlans.values());
+  }
+
+  async createSubscription(insertSubscription: InsertUserSubscription): Promise<UserSubscription> {
+    const id = randomUUID();
+    const subscription: UserSubscription = {
+      ...insertSubscription,
+      id,
+      createdAt: new Date(),
+    };
+    this.userSubscriptions.set(id, subscription);
+    return subscription;
+  }
+
+  async getUserSubscription(userId: string): Promise<UserSubscription | undefined> {
+    return Array.from(this.userSubscriptions.values())
+      .find(sub => sub.userId === userId && sub.status === "active");
   }
 }
 

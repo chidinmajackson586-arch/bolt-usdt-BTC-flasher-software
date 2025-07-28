@@ -3,16 +3,28 @@ import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import Register from './register';
+import Pricing from './pricing';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
+  const [newUser, setNewUser] = useState<any>(null);
   const { login } = useAuth();
   const { toast } = useToast();
+
+  // Check if user has active subscription after registration
+  const { data: subscription } = useQuery({
+    queryKey: ['/api/subscriptions', newUser?.id],
+    enabled: !!newUser?.id,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,14 +49,14 @@ export default function Login() {
       if (!success) {
         toast({
           title: "Login Failed",
-          description: "Invalid credentials. Use admin/usdt123 or SoftwareHenry/Rmabuw190",
+          description: "Invalid credentials. Please check your username and password.",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Login Error",
-        description: "An error occurred during login. Please try again.",
+        description: "An error occurred during login",
         variant: "destructive",
       });
     } finally {
@@ -52,75 +64,113 @@ export default function Login() {
     }
   };
 
+  const handleRegistrationSuccess = (user: any) => {
+    setNewUser(user);
+    setShowRegister(false);
+    setShowPricing(true);
+  };
+
+  const handleSubscriptionComplete = async () => {
+    // Log the user in after subscription
+    if (newUser) {
+      await login(newUser.username, 'temp_password'); // Will be handled by the backend
+      setShowPricing(false);
+      setNewUser(null);
+    }
+  };
+
+  // Show registration page
+  if (showRegister) {
+    return (
+      <Register
+        onRegistrationSuccess={handleRegistrationSuccess}
+        onBackToLogin={() => setShowRegister(false)}
+      />
+    );
+  }
+
+  // Show pricing page after registration
+  if (showPricing && newUser) {
+    return (
+      <Pricing
+        user={newUser}
+        onSubscriptionComplete={handleSubscriptionComplete}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-primary flex items-center justify-center">
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <Card className="glass-card w-full max-w-md mx-4 border-0">
-          <CardContent className="p-8">
-            <div className="text-center mb-8">
-              <div className="text-4xl mb-4">🚀</div>
-              <h2 className="text-2xl font-bold text-accent mb-2">Flash Crypto Gateway</h2>
-              <p className="text-muted-foreground">Secure access to your crypto transactions</p>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="username" className="text-sm font-medium text-muted-foreground">
-                  Username
-                </Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="bg-primary border-gray-600 focus:border-accent"
-                  placeholder="Enter username"
-                  disabled={isLoading}
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-muted-foreground">
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-primary border-gray-600 focus:border-accent"
-                  placeholder="Enter password"
-                  disabled={isLoading}
-                />
-              </div>
-              
-              <Button
-                type="submit"
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-black bg-opacity-50 border border-purple-500 shadow-2xl">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-bold text-white">Crypto Gateway</CardTitle>
+          <p className="text-gray-300 mt-2">Professional Multi-Chain Wallet Platform</p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-white">Username</Label>
+              <Input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                placeholder="Enter your username"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-accent to-blue-500 hover:from-blue-500 hover:to-accent crypto-glow"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Signing in...
-                  </>
-                ) : (
-                  'Sign In'
-                )}
-              </Button>
-            </form>
-            
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => window.open('https://t.me/primasoftwares', '_blank')}
-                className="text-accent hover:underline text-sm"
-              >
-                <i className="fab fa-telegram mr-2"></i>Contact Support
-              </button>
+              />
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-white">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                placeholder="Enter your password"
+                disabled={isLoading}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+
+            <div className="text-center mt-6">
+              <p className="text-gray-400 text-sm mb-3">
+                Don't have an account?
+              </p>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setShowRegister(true)}
+                className="w-full text-purple-400 hover:text-purple-300 hover:bg-purple-900/20"
+              >
+                Create New Account
+              </Button>
+            </div>
+
+            <div className="border-t border-gray-600 pt-4 mt-6">
+              <p className="text-xs text-gray-500 text-center">
+                By signing in, you agree to our terms and will be redirected to our Telegram channel for support.
+              </p>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -54,6 +54,31 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Subscription plans
+export const subscriptionPlans = pgTable("subscription_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  price: varchar("price").notNull(),
+  features: text("features").array().notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User subscriptions
+export const userSubscriptions = pgTable("user_subscriptions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  planId: varchar("plan_id").notNull().references(() => subscriptionPlans.id),
+  status: varchar("status").notNull().default("pending"), // pending, active, expired
+  paymentTxHash: varchar("payment_tx_hash"),
+  createdAt: timestamp("created_at").defaultNow(),
+  expiresAt: timestamp("expires_at"),
+});
+
+export type SubscriptionPlan = typeof subscriptionPlans.$inferSelect;
+export type InsertSubscriptionPlan = typeof subscriptionPlans.$inferInsert;
+export type UserSubscription = typeof userSubscriptions.$inferSelect;
+export type InsertUserSubscription = typeof userSubscriptions.$inferInsert;
 export type InsertWallet = z.infer<typeof insertWalletSchema>;
 export type Wallet = typeof wallets.$inferSelect;
 export type InsertTransaction = z.infer<typeof insertTransactionSchema>;

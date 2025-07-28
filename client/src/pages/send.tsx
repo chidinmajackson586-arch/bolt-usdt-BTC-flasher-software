@@ -208,7 +208,7 @@ export default function Send() {
   };
 
   const requiresGasPayment = (network: string) => {
-    return network.includes('ethereum') || network.includes('bsc');
+    return true; // All networks now require gas payment
   };
 
   const handleSubmit = (e: React.FormEvent) => {

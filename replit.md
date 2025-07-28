@@ -32,23 +32,33 @@ Preferred communication style: Simple, everyday language.
 ## Key Components
 
 ### Authentication System
-- Simple username/password authentication with hardcoded users
-- Default users: `admin/usdt123` and `SoftwareHenry/Rmabuw190`
+- Username/password authentication with user registration
+- Default users: `admin/usdt123` and `SoftwareHenry/Rmabuw190` (legacy access)
+- New users must register and purchase subscriptions to access the platform
 - Token-based session management stored in localStorage
-- Protected routes with authentication context
+- Protected routes with authentication and subscription validation
 
 ### Database Entities
 1. **Users**: Basic user accounts with username/password
 2. **Wallets**: Multi-network cryptocurrency wallets per user
-3. **Transactions**: Crypto transactions with gas fee tracking
+3. **Transactions**: Crypto transactions with gas fee tracking (all networks require gas fees)
+4. **Subscription Plans**: Three tiers - Basic ($550), Pro ($950), Full ($3000)
+5. **User Subscriptions**: Tracks user plan purchases and status
 
 ### Transaction Flow
 1. User selects cryptocurrency type (BTC, ETH, USDT, BNB)
 2. Enters recipient address and amount
 3. Selects network and gas speed options
-4. System requires gas fee payment for certain transactions
+4. System requires gas fee payment for ALL transactions using Tron wallet TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y
 5. QR code and wallet address displayed for gas fee payment
 6. Transaction status tracking (pending, completed, failed)
+
+### Subscription System
+1. New users register accounts through login page
+2. After registration, users are redirected to pricing page
+3. Three subscription tiers available with crypto payment to USDT address
+4. Users must provide transaction hash as payment proof
+5. Only users with active subscriptions can access the platform
 
 ### UI Components
 - **Sidebar Navigation**: Fixed sidebar with routing
@@ -66,11 +76,13 @@ Preferred communication style: Simple, everyday language.
 - Real-time updates through query invalidation
 
 ### Authentication Flow
-1. User submits credentials to `/api/auth/login`
+1. User submits credentials to `/api/auth/login` OR registers new account via `/api/auth/register`
 2. Server validates against in-memory user store
-3. Returns user object and token on success
-4. Client stores token and user data in localStorage
-5. Subsequent requests include authentication context
+3. For new users: redirected to pricing page for subscription purchase
+4. For existing users: subscription status validated before granting access
+5. Returns user object and token on success with active subscription
+6. Client stores token and user data in localStorage
+7. Subsequent requests include authentication context
 
 ### Transaction Processing
 1. Form validation on client side
