@@ -1,0 +1,67 @@
+import { Link, useLocation } from 'wouter';
+import { useAuth } from '@/hooks/use-auth';
+import { 
+  ChartLine, 
+  NotebookPen, 
+  History, 
+  BarChart3, 
+  Settings, 
+  LogOut 
+} from 'lucide-react';
+
+const navItems = [
+  { path: '/', icon: ChartLine, label: 'Dashboard' },
+  { path: '/send', icon: NotebookPen, label: 'Send Crypto' },
+  { path: '/history', icon: History, label: 'Transaction History' },
+  { path: '/charts', icon: BarChart3, label: 'Price Charts' },
+  { path: '/settings', icon: Settings, label: 'Settings' },
+];
+
+export default function Sidebar() {
+  const [location] = useLocation();
+  const { logout } = useAuth();
+
+  return (
+    <div className="fixed left-0 top-0 h-full w-64 glass-card border-r border-gray-700 z-40">
+      <div className="p-6 border-b border-gray-700">
+        <div className="flex items-center space-x-3">
+          <div className="text-2xl">🚀</div>
+          <div>
+            <h1 className="text-lg font-bold text-accent">Flash Gateway</h1>
+            <p className="text-sm text-muted-foreground">Crypto Transactions</p>
+          </div>
+        </div>
+      </div>
+      
+      <nav className="p-4 space-y-2">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location === item.path;
+          
+          return (
+            <Link key={item.path} href={item.path}>
+              <button
+                className={`sidebar-item flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 w-full text-left ${
+                  isActive ? 'bg-accent bg-opacity-20 text-accent' : 'text-white hover:text-accent'
+                }`}
+              >
+                <Icon className={`w-5 h-5 ${isActive ? 'text-accent' : 'text-inherit'}`} />
+                <span>{item.label}</span>
+              </button>
+            </Link>
+          );
+        })}
+      </nav>
+      
+      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700">
+        <button
+          onClick={logout}
+          className="w-full flex items-center justify-center space-x-2 text-red-400 hover:bg-red-900 hover:bg-opacity-20 p-3 rounded-lg transition-all"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  );
+}
