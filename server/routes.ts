@@ -168,26 +168,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ address });
   });
 
-  // User registration
-  app.post("/api/auth/register", async (req, res) => {
-    try {
-      const { username, password } = loginSchema.parse(req.body);
-      
-      // Check if user already exists
-      const existingUser = await storage.getUserByUsername(username);
-      if (existingUser) {
-        return res.status(400).json({ message: "Username already exists" });
-      }
-
-      const user = await storage.createUser({ username, password });
-      res.json({ 
-        user: { id: user.id, username: user.username },
-        message: "Registration successful"
-      });
-    } catch (error) {
-      res.status(400).json({ message: "Registration failed" });
-    }
-  });
+  
 
   // Subscription plans
   app.get("/api/subscription-plans", async (req, res) => {
