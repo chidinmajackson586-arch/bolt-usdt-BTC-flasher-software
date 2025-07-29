@@ -5,27 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Register from './register';
-import Pricing from './pricing';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [showPricing, setShowPricing] = useState(false);
-  const [newUser, setNewUser] = useState<any>(null);
-  const [newUserPassword, setNewUserPassword] = useState<string>('');
   const { login } = useAuth();
   const { toast } = useToast();
-
-  // Check if user has active subscription after registration
-  const { data: subscription } = useQuery({
-    queryKey: ['/api/subscriptions', newUser?.id],
-    enabled: !!newUser?.id,
-  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,23 +51,12 @@ export default function Login() {
     }
   };
 
-  const handleRegistrationSuccess = (user: any, password: string) => {
-    setNewUser(user);
-    setNewUserPassword(password);
+  const handleRegistrationSuccess = () => {
     setShowRegister(false);
-    setShowPricing(true);
-  };
-
-  const handleSubscriptionComplete = async () => {
-    // Log the user in after subscription
-    if (newUser && newUserPassword) {
-      const success = await login(newUser.username, newUserPassword);
-      if (success) {
-        setShowPricing(false);
-        setNewUser(null);
-        setNewUserPassword('');
-      }
-    }
+    toast({
+      title: "Registration Successful",
+      description: "Please login with your new credentials",
+    });
   };
 
   // Show registration page
@@ -87,16 +65,6 @@ export default function Login() {
       <Register
         onRegistrationSuccess={handleRegistrationSuccess}
         onBackToLogin={() => setShowRegister(false)}
-      />
-    );
-  }
-
-  // Show pricing page after registration
-  if (showPricing && newUser) {
-    return (
-      <Pricing
-        user={newUser}
-        onSubscriptionComplete={handleSubscriptionComplete}
       />
     );
   }

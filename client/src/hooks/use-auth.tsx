@@ -9,15 +9,47 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  hasActiveSubscription: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
+  checkSubscription: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Admin users who bypass subscription requirements
+const ADMIN_USERS = ['admin', 'SoftwareHenry'];
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
+
+  const checkSubscription = async (): Promise<boolean> => {
+    if (!user) return false;
+    
+    // Admin users bypass subscription check
+    if (ADMIN_USERS.includes(user.username)) {
+      setHasActiveSubscription(true);
+      return true;
+    }
+
+    try {
+      const response = await fetch(`/api/subscriptions/${user.id}`);
+      if (response.ok) {
+        const subscription = await response.json();
+        const hasActive = subscription && subscription.status === 'active';
+        setHasActiveSubscription(hasActive);
+        return hasActive;
+      }
+      setHasActiveSubscription(false);
+      return false;
+    } catch (error) {
+      console.error('Subscription check error:', error);
+      setHasActiveSubscription(false);
+      return false;
+    }
+  };
 
   useEffect(() => {
     // Check if user is already logged in from localStorage
@@ -26,7 +58,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     if (storedToken && storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const userData = JSON.parse(storedUser);
+        setUser(userData);
+        // Check subscription after setting user
+        if (userData) {
+          checkSubscription();
+        }
       } catch (error) {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
@@ -34,6 +71,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setIsLoading(false);
   }, []);
+
+  // Check subscription when user changes
+  useEffect(() => {
+    if (user) {
+      checkSubscription();
+    } else {
+      setHasActiveSubscription(false);
+    }
+  }, [user]);
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
@@ -67,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Logout error:', error);
     } finally {
       setUser(null);
+      setHasActiveSubscription(false);
       localStorage.removeItem('auth_token');
       localStorage.removeItem('auth_user');
     }
@@ -77,8 +124,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isAuthenticated: !!user,
       isLoading,
+      hasActiveSubscription,
       login,
       logout,
+      checkSubscription,
     }}>
       {children}
     </AuthContext.Provider>

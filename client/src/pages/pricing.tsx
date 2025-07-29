@@ -11,7 +11,7 @@ import QRCode from 'qrcode';
 
 interface PricingProps {
   user: any;
-  onSubscriptionComplete: () => void;
+  onSubscriptionComplete: () => Promise<boolean>;
 }
 
 export default function Pricing({ user, onSubscriptionComplete }: PricingProps) {
@@ -52,12 +52,12 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
         headers: { 'Content-Type': 'application/json' },
       });
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: "Subscription Activated",
         description: "Your subscription has been activated successfully!",
       });
-      onSubscriptionComplete();
+      await onSubscriptionComplete();
     },
     onError: (error: any) => {
       toast({

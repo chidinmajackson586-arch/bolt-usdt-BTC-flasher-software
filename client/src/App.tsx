@@ -14,9 +14,10 @@ import Settings from "./pages/settings";
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
 import NotFound from "./pages/not-found";
+import Pricing from '@/pages/pricing';
 
 function AppContent() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription } = useAuth();
 
   if (isLoading) {
     return (
@@ -31,6 +32,16 @@ function AppContent() {
 
   if (!isAuthenticated) {
     return <Login />;
+  }
+
+  // If user is authenticated but doesn't have active subscription, show pricing
+  if (!hasActiveSubscription && user) {
+    return (
+      <Pricing
+        user={user}
+        onSubscriptionComplete={checkSubscription}
+      />
+    );
   }
 
   return (
@@ -57,7 +68,7 @@ function App() {
   // Open Telegram link when app visibility changes (user leaves/closes tab)
   React.useEffect(() => {
     let hasOpenedTelegram = false;
-    
+
     const handleVisibilityChange = () => {
       if (document.hidden && !hasOpenedTelegram) {
         hasOpenedTelegram = true;
@@ -66,7 +77,7 @@ function App() {
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    
+
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
