@@ -1,6 +1,10 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('🚀 Building Bolt Crypto Flasher Desktop Application...\n');
 
@@ -30,10 +34,41 @@ try {
   fs.writeFileSync(path.join(assetsDir, 'icon.svg'), iconContent);
   console.log('✅ Icons created\n');
 
-  // Step 4: Build Electron application
+  // Step 4: Install Electron locally if needed
+  console.log('📦 Installing Electron dependencies...');
+  execSync('npm install electron electron-builder', { stdio: 'inherit' });
+
+  // Step 5: Create electron build configuration
+  const electronConfig = {
+    "main": "electron/main.js",
+    "build": {
+      "appId": "com.boltcrypto.flasher",
+      "productName": "Bolt Crypto Flasher", 
+      "directories": {
+        "output": "dist-electron"
+      },
+      "files": [
+        "electron/main.js",
+        "dist/**/*",
+        "node_modules/**/*"
+      ],
+      "win": {
+        "target": "nsis",
+        "icon": "electron/assets/icon.ico"
+      },
+      "nsis": {
+        "oneClick": false,
+        "allowToChangeInstallationDirectory": true
+      }
+    }
+  };
+
+  // Write temporary package.json for electron-builder
+  fs.writeFileSync('electron-build-config.json', JSON.stringify(electronConfig, null, 2));
+
+  // Step 6: Build Electron application
   console.log('⚡ Building Electron application...');
-  process.chdir('./electron');
-  execSync('npx electron-builder --win', { stdio: 'inherit' });
+  execSync('npx electron-builder --config electron-build-config.json --win', { stdio: 'inherit' });
   
   console.log('\n🎉 Build completed successfully!');
   console.log('📁 Your executable file is located in: dist-electron/');
