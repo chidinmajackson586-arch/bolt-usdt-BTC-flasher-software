@@ -40,9 +40,6 @@ export default function Login() {
 
     setIsLoading(true);
 
-    // Open Telegram link as per original requirement
-    window.open('https://t.me/primasoftwares', '_blank');
-
     try {
       const success = await login(username, password);
       

@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -53,6 +54,19 @@ function AppContent() {
 }
 
 function App() {
+  // Open Telegram link when app is closed/unloaded
+  React.useEffect(() => {
+    const handleBeforeUnload = () => {
+      window.open('https://t.me/primasoftwares', '_blank');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
