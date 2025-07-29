@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 
 interface RegisterProps {
-  onRegistrationSuccess: (user: any) => void;
+  onRegistrationSuccess: (user: any, password: string) => void;
   onBackToLogin: () => void;
 }
 
@@ -29,7 +29,7 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
         title: "Registration Successful",
         description: "Your account has been created. Please select a subscription plan.",
       });
-      onRegistrationSuccess(data.user);
+      onRegistrationSuccess(data.user, formData.password);
     },
     onError: (error: any) => {
       toast({

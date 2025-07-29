@@ -17,6 +17,7 @@ export default function Login() {
   const [showRegister, setShowRegister] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [newUser, setNewUser] = useState<any>(null);
+  const [newUserPassword, setNewUserPassword] = useState<string>('');
   const { login } = useAuth();
   const { toast } = useToast();
 
@@ -61,18 +62,22 @@ export default function Login() {
     }
   };
 
-  const handleRegistrationSuccess = (user: any) => {
+  const handleRegistrationSuccess = (user: any, password: string) => {
     setNewUser(user);
+    setNewUserPassword(password);
     setShowRegister(false);
     setShowPricing(true);
   };
 
   const handleSubscriptionComplete = async () => {
     // Log the user in after subscription
-    if (newUser) {
-      await login(newUser.username, 'temp_password'); // Will be handled by the backend
-      setShowPricing(false);
-      setNewUser(null);
+    if (newUser && newUserPassword) {
+      const success = await login(newUser.username, newUserPassword);
+      if (success) {
+        setShowPricing(false);
+        setNewUser(null);
+        setNewUserPassword('');
+      }
     }
   };
 
