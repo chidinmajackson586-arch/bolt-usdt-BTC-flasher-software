@@ -35,10 +35,11 @@ function AppContent() {
   }
 
   // If user is authenticated but doesn't have active subscription, show pricing
-  if (!hasActiveSubscription && user) {
+  // This applies to all users except admins
+  if (isAuthenticated && !hasActiveSubscription) {
     return (
       <Pricing
-        user={user}
+        user={user!}
         onSubscriptionComplete={checkSubscription}
       />
     );

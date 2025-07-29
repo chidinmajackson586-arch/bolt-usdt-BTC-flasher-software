@@ -19,12 +19,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = loginSchema.parse(req.body);
-      
+
       const user = await storage.getUserByUsername(username);
       if (!user) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
-      
+
       // Check password
       if (user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials" });
@@ -43,7 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/auth/register", async (req, res) => {
     try {
       const { username, password } = loginSchema.parse(req.body);
-      
+
       // Check if user already exists
       const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
@@ -93,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/transactions", async (req, res) => {
     try {
       const transactionData = insertTransactionSchema.parse(req.body);
-      
+
       // Validate gas fee payment for all networks
       if (!transactionData.gasFeePaid) {
         return res.status(400).json({ 
@@ -102,7 +102,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const transaction = await storage.createTransaction(transactionData);
-      
+
       // Simulate transaction processing
       setTimeout(async () => {
         await storage.updateTransaction(transaction.id, { 
@@ -146,7 +146,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/admin/gas-receiver", async (req, res) => {
     try {
       const { address } = req.body;
-      
+
       if (!address || typeof address !== 'string') {
         return res.status(400).json({ message: 'Valid wallet address is required' });
       }
@@ -154,7 +154,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Basic validation for wallet address format (supports Ethereum and Tron)
       const isEthereumAddress = /^0x[a-fA-F0-9]{40}$/.test(address);
       const isTronAddress = /^T[A-Za-z1-9]{33}$/.test(address);
-      
+
       if (!isEthereumAddress && !isTronAddress) {
         return res.status(400).json({ message: 'Invalid wallet address format. Must be Ethereum (0x...) or Tron (T...) address' });
       }
@@ -173,7 +173,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ address });
   });
 
-  
+
 
   // Subscription plans
   app.get("/api/subscription-plans", async (req, res) => {
@@ -189,7 +189,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/subscriptions", async (req, res) => {
     try {
       const { userId, planId, paymentTxHash } = req.body;
-      
+
       if (!userId || !planId || !paymentTxHash) {
         return res.status(400).json({ message: "Missing required fields" });
       }
@@ -211,10 +211,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user subscription
   app.get("/api/subscriptions/:userId", async (req, res) => {
     try {
-      const subscription = await storage.getUserSubscription(req.params.userId);
-      res.json(subscription || null);
+      const { userId } = req.params;
+
+      // For admin users, return active subscription
+      if (userId === 'admin' || userId === 'SoftwareHenry') {
+        return res.json({
+          id: `admin-sub-${userId}`,
+          userId,
+          planId: 'admin-plan',
+          status: 'active',
+          createdAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 year
+        });
+      }
+
+      // Check if user has any active subscriptions
+      const userSubscriptions = await storage.getUserSubscriptions(userId);
+      const activeSubscription = userSubscriptions.find(sub => sub.status === 'active');
+
+      if (!activeSubscription) {
+        return res.status(404).json({ message: "No active subscription found" });
+      }
+
+      res.json(activeSubscription);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch subscription" });
+      console.error('Get subscription error:', error);
+      res.status(500).json({ message: "Failed to get subscription" });
     }
   });
 

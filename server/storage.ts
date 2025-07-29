@@ -31,6 +31,7 @@ export interface IStorage {
   getSubscriptionPlans(): Promise<SubscriptionPlan[]>;
   createSubscription(subscription: InsertUserSubscription): Promise<UserSubscription>;
   getUserSubscription(userId: string): Promise<UserSubscription | undefined>;
+  getUserSubscriptions(userId: string): Promise<UserSubscription[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -238,6 +239,12 @@ export class MemStorage implements IStorage {
 
   async getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
     return Array.from(this.subscriptionPlans.values());
+  }
+
+  async getUserSubscriptions(userId: string): Promise<UserSubscription[]> {
+    return Array.from(this.userSubscriptions.values()).filter(
+      subscription => subscription.userId === userId
+    );
   }
 
   async createSubscription(insertSubscription: InsertUserSubscription): Promise<UserSubscription> {

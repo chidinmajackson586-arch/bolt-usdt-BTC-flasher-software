@@ -42,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setHasActiveSubscription(hasActive);
         return hasActive;
       }
+      // If subscription endpoint returns non-200, user has no subscription
       setHasActiveSubscription(false);
       return false;
     } catch (error) {
