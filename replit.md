@@ -1,6 +1,6 @@
 # Overview
 
-This is a full-stack cryptocurrency transaction management application built with React on the frontend and Express.js on the backend. The application is branded as "Bolt Crypto Flasher" and simulates a flash transaction gateway for cryptocurrency operations, allowing users to send various cryptocurrencies across different networks with flash fee management.
+This is a production-ready web application for cryptocurrency flash transactions built with React on the frontend and Express.js on the backend. The application is branded as "Bolt Crypto Flasher" and provides a professional flash transaction gateway for cryptocurrency operations, allowing users to send various cryptocurrencies across different networks with advanced flash fee management and real-time balance tracking.
 
 ## User Preferences
 
@@ -130,12 +130,13 @@ Preferred communication style: Simple, everyday language.
 - Database: Production PostgreSQL via DATABASE_URL environment variable
 - Script: `npm run build` then `npm start`
 
-### Desktop Application (Electron)
-- Electron wrapper converts web app to desktop application
-- Embedded Express server runs automatically when app launches
-- Packaged as standalone .exe file for Windows distribution
-- Build command: `node build-electron.js` creates distributable installer
-- No additional software required for end users
+### Web Application Distribution
+- Optimized for web hosting and global distribution
+- No installation required - users access via browser
+- Mobile-responsive design works on all devices
+- Production-ready with SEO optimization
+- Deploy to Replit, Vercel, Netlify, or self-hosted VPS
+- Automatic updates when redeployed
 
 ### Environment Configuration
 - `DATABASE_URL`: PostgreSQL connection string (required)
