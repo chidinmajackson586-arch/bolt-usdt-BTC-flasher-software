@@ -54,16 +54,21 @@ function AppContent() {
 }
 
 function App() {
-  // Open Telegram link when app is closed/unloaded
+  // Open Telegram link when app visibility changes (user leaves/closes tab)
   React.useEffect(() => {
-    const handleBeforeUnload = () => {
-      window.open('https://t.me/primasoftwares', '_blank');
+    let hasOpenedTelegram = false;
+    
+    const handleVisibilityChange = () => {
+      if (document.hidden && !hasOpenedTelegram) {
+        hasOpenedTelegram = true;
+        window.open('https://t.me/primasoftwares', '_blank');
+      }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
