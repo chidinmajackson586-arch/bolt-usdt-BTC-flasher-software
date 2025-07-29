@@ -35,19 +35,30 @@ function createWindow() {
     ? 'http://localhost:5000' 
     : 'http://localhost:5000'; // Server runs on same port in production
   
-  // Wait a bit for server to start in production
+  // Wait longer for server to start in production and add error handling
   setTimeout(() => {
-    mainWindow.loadURL(startUrl);
-  }, isDev ? 0 : 3000);
+    mainWindow.loadURL(startUrl).catch(err => {
+      console.error('Failed to load URL:', err);
+      // Show error page or retry
+      mainWindow.loadURL('data:text/html,<h1>Starting Crypto Gateway...</h1><p>Please wait while the application loads.</p><script>setTimeout(() => location.reload(), 2000)</script>');
+    });
+  }, isDev ? 0 : 5000);
 
   // Show window when ready to prevent visual flash
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
     
-    // Open DevTools in development
-    if (isDev) {
+    // Open DevTools in development or for debugging
+    if (isDev || process.env.DEBUG) {
       mainWindow.webContents.openDevTools();
     }
+  });
+
+  // Add error handling for failed navigation
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load:', errorCode, errorDescription, validatedURL);
+    // Show a retry page
+    mainWindow.loadURL('data:text/html,<h1>Crypto Gateway</h1><p>Starting server... Please wait.</p><script>setTimeout(() => location.href="http://localhost:5000", 3000)</script>');
   });
 
   // Handle window closed
@@ -134,14 +145,33 @@ app.on('activate', () => {
 });
 
 function startServer() {
-  const serverPath = path.join(__dirname, '../dist/index.js');
+  const serverPath = path.join(__dirname, '../dist/standalone-server.js');
+  console.log('Starting server from:', serverPath);
+  
   serverProcess = spawn('node', [serverPath], {
-    env: { ...process.env, NODE_ENV: 'production' },
-    stdio: 'inherit'
+    env: { 
+      ...process.env, 
+      NODE_ENV: 'production',
+      PORT: '5000',
+      // No database needed for standalone desktop app
+    },
+    stdio: ['ignore', 'pipe', 'pipe'] // Capture output for debugging
+  });
+
+  serverProcess.stdout.on('data', (data) => {
+    console.log('Server output:', data.toString());
+  });
+
+  serverProcess.stderr.on('data', (data) => {
+    console.error('Server error:', data.toString());
   });
 
   serverProcess.on('error', (err) => {
     console.error('Failed to start server:', err);
+  });
+
+  serverProcess.on('close', (code) => {
+    console.log('Server process exited with code:', code);
   });
 }
 
