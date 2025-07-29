@@ -71,18 +71,18 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
       <Card className="w-full max-w-md bg-black bg-opacity-50 border border-purple-500 shadow-2xl">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+        <CardHeader className="text-center p-4 sm:p-6">
+          <div className="flex justify-center mb-3 sm:mb-4">
             <BoltTextLogo />
           </div>
-          <p className="text-gray-300 mt-2">Professional Flash Transaction Platform</p>
+          <p className="text-gray-300 mt-2 text-sm sm:text-base">Professional Flash Transaction Platform</p>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-white">Username</Label>
+              <Label htmlFor="username" className="text-white text-sm sm:text-base">Username</Label>
               <Input
                 id="username"
                 type="text"

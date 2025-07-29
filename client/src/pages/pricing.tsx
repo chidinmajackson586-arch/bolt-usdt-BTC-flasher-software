@@ -108,13 +108,13 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
 
   if (showPayment && selectedPlan) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
         <Card className="w-full max-w-md bg-black bg-opacity-50 border border-purple-500 shadow-2xl">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-white">Complete Payment</CardTitle>
-            <p className="text-gray-300">{selectedPlan.name} Plan - ${selectedPlan.price} USDT</p>
+          <CardHeader className="text-center p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl font-bold text-white">Complete Payment</CardTitle>
+            <p className="text-gray-300 text-sm sm:text-base">{selectedPlan.name} Plan - ${selectedPlan.price} USDT</p>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4 sm:space-y-6 p-4 sm:p-6">
             <div className="bg-gray-800 rounded-lg p-4 border border-gray-600">
               <div className="flex items-center justify-between mb-2">
                 <Label className="text-white text-sm">USDT Payment Address:</Label>
@@ -134,7 +134,7 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
               
               {qrCodeUrl && (
                 <div className="flex justify-center p-3 bg-white rounded-lg">
-                  <img src={qrCodeUrl} alt="USDT Address QR Code" className="w-48 h-48" />
+                  <img src={qrCodeUrl} alt="USDT Address QR Code" className="w-32 h-32 sm:w-48 sm:h-48" />
                 </div>
               )}
             </div>
@@ -177,14 +177,14 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-6xl">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Choose Your Plan</h1>
-          <p className="text-gray-300">Welcome {user.username}! Select a subscription plan to access the platform</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">Choose Your Plan</h1>
+          <p className="text-gray-300 text-sm sm:text-base">Welcome {user.username}! Select a subscription plan to access the platform</p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {plans.map((plan: any) => (
             <Card 
               key={plan.id} 

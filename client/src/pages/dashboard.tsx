@@ -55,22 +55,22 @@ export default function Dashboard() {
   ];
 
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
         {statsCards.map((card, index) => (
           <Card key={index} className="glass-card border-0 crypto-glow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-2xl">{card.icon}</div>
-                <div className={`text-sm ${card.positive ? 'text-green-500' : 'text-yellow-500'}`}>
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className="text-xl sm:text-2xl">{card.icon}</div>
+                <div className={`text-xs sm:text-sm ${card.positive ? 'text-green-500' : 'text-yellow-500'}`}>
                   {card.change}
                 </div>
               </div>
-              <h3 className="text-lg font-semibold mb-1">{card.title}</h3>
-              <p className={`text-2xl font-bold ${
+              <h3 className="text-sm sm:text-lg font-semibold mb-1 leading-tight">{card.title}</h3>
+              <p className={`text-lg sm:text-2xl font-bold ${
                 card.title === 'Total Balance' ? 'text-green-500' : 
                 card.title === 'Active Transactions' ? 'text-accent' :
-                card.title === 'Gas Fees Paid' ? 'text-yellow-500' : 'text-white'
+                card.title === 'Flash Fees Paid' ? 'text-yellow-500' : 'text-white'
               }`}>
                 {card.value}
               </p>
@@ -79,10 +79,10 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2">
           <Card className="glass-card border-0">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
               <div className="space-y-3">
                 {transactionsLoading ? (

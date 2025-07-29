@@ -256,36 +256,44 @@ export default function Send() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="glass-card border-0 mb-6">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold">Send Cryptocurrency</h3>
-            <div className="flex items-center space-x-2">
+      <Card className="glass-card border-0 mb-4 sm:mb-6">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h3 className="text-lg sm:text-xl font-semibold">Send Cryptocurrency</h3>
+            <div className="hidden sm:flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span className="text-sm text-muted-foreground">All networks online</span>
             </div>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-            <TabsList className="border-b border-gray-700 bg-transparent">
-              <TabsTrigger value="btc" className="data-[state=active]:border-b-2 data-[state=active]:border-accent">
-                <i className="fab fa-bitcoin mr-2"></i>Bitcoin
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4 sm:mb-6">
+            <TabsList className="border-b border-gray-700 bg-transparent grid grid-cols-4 w-full">
+              <TabsTrigger value="btc" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+                <span className="hidden sm:inline mr-2">₿</span>
+                <span className="sm:hidden">BTC</span>
+                <span className="hidden sm:inline">Bitcoin</span>
               </TabsTrigger>
-              <TabsTrigger value="eth" className="data-[state=active]:border-b-2 data-[state=active]:border-accent">
-                <i className="fab fa-ethereum mr-2"></i>Ethereum
+              <TabsTrigger value="eth" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+                <span className="hidden sm:inline mr-2">Ξ</span>
+                <span className="sm:hidden">ETH</span>
+                <span className="hidden sm:inline">Ethereum</span>
               </TabsTrigger>
-              <TabsTrigger value="usdt" className="data-[state=active]:border-b-2 data-[state=active]:border-accent">
-                <i className="fas fa-dollar-sign mr-2"></i>USDT
+              <TabsTrigger value="usdt" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+                <span className="hidden sm:inline mr-2">₮</span>
+                <span className="sm:hidden">USDT</span>
+                <span className="hidden sm:inline">USDT</span>
               </TabsTrigger>
-              <TabsTrigger value="bnb" className="data-[state=active]:border-b-2 data-[state=active]:border-accent">
-                <i className="fas fa-coins mr-2"></i>BNB
+              <TabsTrigger value="bnb" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+                <span className="hidden sm:inline mr-2">♦</span>
+                <span className="sm:hidden">BNB</span>
+                <span className="hidden sm:inline">BNB</span>
               </TabsTrigger>
             </TabsList>
 
             {Object.keys(tokenSymbols).map((token) => (
               <TabsContent key={token} value={token}>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="recipientAddress">Recipient Address</Label>
                       <Input
