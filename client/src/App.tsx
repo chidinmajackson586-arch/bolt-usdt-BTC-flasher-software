@@ -15,6 +15,7 @@ import Sidebar from "./components/sidebar";
 import Header from "./components/header";
 import NotFound from "./pages/not-found";
 import Pricing from '@/pages/pricing';
+import TelegramSupport from './components/TelegramSupport';
 
 function AppContent() {
   const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription } = useAuth();
@@ -31,17 +32,25 @@ function AppContent() {
   }
 
   if (!isAuthenticated) {
-    return <Login />;
+    return (
+      <div className="relative">
+        <Login />
+        <TelegramSupport />
+      </div>
+    );
   }
 
   // If user is authenticated but doesn't have active subscription, show pricing
   // This applies to all users except admins
   if (isAuthenticated && !hasActiveSubscription) {
     return (
-      <Pricing
-        user={user!}
-        onSubscriptionComplete={checkSubscription}
-      />
+      <div className="relative">
+        <Pricing
+          user={user!}
+          onSubscriptionComplete={checkSubscription}
+        />
+        <TelegramSupport />
+      </div>
     );
   }
 
@@ -61,6 +70,7 @@ function AppContent() {
           </Switch>
         </main>
       </div>
+      <TelegramSupport />
     </div>
   );
 }
