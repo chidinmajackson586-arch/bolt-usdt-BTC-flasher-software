@@ -12,7 +12,7 @@ export default function TelegramSupport() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  const telegramUsername = "BoltCryptoFlasher"; // Replace with your actual Telegram username
+  const telegramUsername = "primasoftwares"; // Replace with your actual Telegram username
   const telegramUrl = `https://t.me/${telegramUsername}`;
 
   const handleQuickMessage = () => {
