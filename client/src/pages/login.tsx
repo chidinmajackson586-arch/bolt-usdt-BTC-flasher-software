@@ -56,8 +56,10 @@ export default function Login() {
     setShowRegister(false);
     toast({
       title: "Registration Successful",
-      description: "Please login with your new credentials",
+      description: "Account created! You can now purchase a subscription to access the platform.",
     });
+    // Refresh the page to trigger auth state update
+    window.location.reload();
   };
 
   // Show registration page

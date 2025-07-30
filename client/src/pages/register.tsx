@@ -24,7 +24,12 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
     mutationFn: async (data: { username: string; password: string }) => {
       return await apiRequest('POST', '/api/auth/register', data);
     },
-    onSuccess: () => {
+    onSuccess: (response: any) => {
+      // Store the new user data temporarily to avoid auth issues
+      if (response.user && response.token) {
+        localStorage.setItem('auth_token', response.token);
+        localStorage.setItem('auth_user', JSON.stringify(response.user));
+      }
       onRegistrationSuccess();
     },
     onError: (error: any) => {

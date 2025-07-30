@@ -41,8 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const hasActive = subscription && subscription.status === 'active';
         setHasActiveSubscription(hasActive);
         return hasActive;
+      } else if (response.status === 404) {
+        // 404 means no subscription found - this is normal for new users
+        setHasActiveSubscription(false);
+        return false;
       }
-      // If subscription endpoint returns non-200, user has no subscription
+      // Other error statuses
       setHasActiveSubscription(false);
       return false;
     } catch (error) {
