@@ -5,9 +5,9 @@
  * This script rebuilds all three distribution formats to keep them in sync
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 console.log('🚀 Rebuilding ALL Bolt Crypto Flasher Distribution Versions...\n');
 
