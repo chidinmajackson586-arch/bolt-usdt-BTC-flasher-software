@@ -33,14 +33,16 @@ Distribution requirement: Always apply changes to all three distribution version
 ## Key Components
 
 ### Authentication System
-- Username/password authentication with user registration
+- Enhanced registration system with email and personal information support
+- Username/password authentication with optional email, firstName, lastName fields
 - Default users: `admin/usdt123` and `SoftwareHenry/Rmabuw190` (automatic full access, no subscription required)
-- New users must register and purchase subscriptions to access the platform
+- New users can register with email and personal details, must purchase subscriptions to access platform
 - Token-based session management stored in localStorage
 - Protected routes with authentication and subscription validation (bypassed for admin users)
+- Comprehensive admin user management system for account oversight
 
 ### Database Entities
-1. **Users**: Basic user accounts with username/password
+1. **Users**: Enhanced user accounts with username/password, email, firstName, lastName, role, isActive status
 2. **Wallets**: Multi-network cryptocurrency wallets per user
 3. **Transactions**: Crypto flash transactions with flash fee tracking (all networks require flash fees)
 4. **Subscription Plans**: Three tiers - Basic ($550), Pro ($950), Full ($3000)
@@ -62,11 +64,12 @@ Distribution requirement: Always apply changes to all three distribution version
 5. Only users with active subscriptions can access the platform
 
 ### UI Components
-- **Sidebar Navigation**: Fixed sidebar with Bolt Crypto Flasher branding and routing
+- **Sidebar Navigation**: Fixed sidebar with Bolt Crypto Flasher branding and routing (includes admin panel for admin users)
 - **Dashboard**: Portfolio overview and flash transaction statistics
 - **Send Page**: Multi-tab flash transaction forms for different cryptocurrencies
 - **Transaction History**: Filterable flash transaction list
 - **Settings**: User preferences and configuration
+- **Admin Panel**: Comprehensive user management interface for admin users only
 - **Bolt Logo**: Custom 4D bolt design logo with gradient effects and 3D shadow
 
 ## Data Flow
@@ -78,13 +81,15 @@ Distribution requirement: Always apply changes to all three distribution version
 - Real-time updates through query invalidation
 
 ### Authentication Flow
-1. User submits credentials to `/api/auth/login` OR registers new account via `/api/auth/register`
-2. Server validates against in-memory user store
-3. For new users: redirected to pricing page for subscription purchase
-4. For existing users: subscription status validated before granting access
-5. Returns user object and token on success with active subscription
-6. Client stores token and user data in localStorage
-7. Subsequent requests include authentication context
+1. User submits credentials to `/api/auth/login` OR registers new account via `/api/auth/register` with email support
+2. Registration now captures username, email, firstName, lastName, password
+3. Server validates against database user store
+4. For new users: redirected to pricing page for subscription purchase
+5. For existing users: subscription status validated before granting access
+6. Returns user object and token on success with active subscription
+7. Client stores token and user data in localStorage
+8. Subsequent requests include authentication context
+9. Admin users access dedicated admin panel for user management
 
 ### Transaction Processing
 1. Form validation on client side
@@ -157,3 +162,29 @@ This automated script rebuilds all four distribution formats and keeps them sync
 - **Default Data**: Automatic seeding of admin users and subscription plans on startup
 
 The application follows a typical full-stack React pattern with shared TypeScript types between frontend and backend, ensuring type safety across the entire application stack.
+
+## Recent Updates (July 31, 2025)
+
+### Email Registration System
+- Enhanced user registration with email, firstName, lastName collection
+- Database schema updated with new user fields: email (unique), firstName, lastName, role, isActive, updatedAt
+- Registration form now captures optional personal information
+- Email uniqueness validation prevents duplicate registrations
+- Backward compatibility maintained for existing username-only accounts
+
+### Admin User Management System
+- Comprehensive admin panel accessible only to admin and SoftwareHenry users
+- Complete CRUD operations for user management:
+  - View all users with detailed information table
+  - Edit user details: username, email, firstName, lastName, role, active status
+  - Delete users (with protection for admin accounts)
+  - Reset user passwords
+- Real-time validation prevents username/email conflicts
+- Admin panel integrated into main navigation with shield icon
+- All changes synchronized across web app, .exe, native desktop, and portable versions
+
+### Database Enhancements
+- User table enhanced with email (unique constraint), firstName, lastName, role, isActive, updatedAt columns
+- API endpoints added: GET/PUT/DELETE /api/admin/users, POST /api/admin/users/:id/reset-password
+- Robust error handling and validation for all admin operations
+- Protected admin accounts cannot be deleted via admin interface
