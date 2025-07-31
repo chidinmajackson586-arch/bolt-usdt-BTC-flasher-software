@@ -17,6 +17,7 @@ import Header from "./components/header";
 import NotFound from "./pages/not-found";
 import Pricing from '@/pages/pricing';
 import TelegramSupport from './components/TelegramSupport';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 function AppContent() {
   const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription } = useAuth();
@@ -100,6 +101,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
+          <GoogleAnalytics />
           <Toaster />
           <AppContent />
         </TooltipProvider>

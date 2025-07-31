@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { blockchainService } from "./blockchain";
 import { insertTransactionSchema } from "@shared/schema";
 import { z } from "zod";
+import { registerSEORoutes } from "./seo-routes";
 
 const loginSchema = z.object({
   username: z.string().min(1),
@@ -492,6 +493,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to get subscription" });
     }
   });
+
+  // Register SEO routes for better search engine optimization
+  registerSEORoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;

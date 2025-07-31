@@ -18,3 +18,14 @@ Sitemap: https://boltcryptoflasher.com/sitemap.xml
 
 # Crawl delay to be respectful
 Crawl-delay: 1
+
+# Additional SEO directives
+Allow: /og-image.png
+Allow: /dashboard-preview.png
+Allow: /pricing-preview.png
+Allow: /send-preview.png
+
+# Block unnecessary crawling
+Disallow: /static/
+Disallow: /_next/
+Disallow: /vite/

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SEOHead from '@/components/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -302,7 +303,14 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
+    <>
+      <SEOHead 
+        title="💎 Pricing Plans - Bolt Crypto Flasher"
+        description="Choose your cryptocurrency flash transaction plan. Basic ($550), Pro ($950), or Full ($3000) access. Professional crypto platform with multi-network support and advanced features."
+        canonical="/pricing"
+        ogImage="/pricing-preview.png"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-6xl">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">Choose Your Plan</h1>
@@ -457,6 +465,7 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -2,9 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/use-auth';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import SEOHead from '@/components/SEOHead';
 
 export default function Dashboard() {
   const { user } = useAuth();
+
+  // SEO optimization for dashboard page
 
   const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
     queryKey: ['/api/transactions', user?.id],
@@ -77,8 +80,15 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-4 sm:space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+    <>
+      <SEOHead 
+        title="⚡ Dashboard - Bolt Crypto Flasher"
+        description="Monitor your cryptocurrency flash transactions, track balances, and manage your crypto portfolio. Real-time analytics for Bitcoin, USDT, Ethereum, and BNB transactions."
+        canonical="/dashboard"
+        ogImage="/dashboard-preview.png"
+      />
+      <div className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
         {statsCards.map((card, index) => (
           <Card key={index} className="glass-card border-0 crypto-glow">
             <CardContent className="p-4 sm:p-6">
@@ -188,6 +198,7 @@ export default function Dashboard() {
           </Card>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
