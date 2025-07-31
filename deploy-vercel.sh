@@ -17,36 +17,10 @@ if ! command -v vercel &> /dev/null; then
     npm install -g vercel
 fi
 
-# Create vercel.json configuration
-echo "📄 Creating Vercel configuration..."
-cat > vercel.json << 'EOF'
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "dist/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "dist/public/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/dist/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/public/$1"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
-EOF
+# Create SEO-optimized vercel.json configuration
+echo "📄 Creating SEO-optimized Vercel configuration..."
+cp vercel-seo.json vercel.json
+echo "✅ SEO-optimized configuration applied!"
 
 # Create .vercelignore file
 echo "📄 Creating .vercelignore..."
