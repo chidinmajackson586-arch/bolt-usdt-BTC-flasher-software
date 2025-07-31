@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Disallow admin areas for security
+Disallow: /admin
+Disallow: /api/
+
+# Allow important pages
+Allow: /dashboard
+Allow: /send
+Allow: /pricing
+Allow: /history
+Allow: /charts
+Allow: /settings
+
+# Sitemap location
+Sitemap: https://boltcryptoflasher.com/sitemap.xml
+
+# Crawl delay to be respectful
+Crawl-delay: 1
