@@ -1,37 +1,37 @@
 {
   "version": 2,
   "name": "bolt-crypto-flasher",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/public",
+  "framework": null,
   "builds": [
     {
-      "src": "server/index.ts",
+      "src": "package.json",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["server/**", "shared/**"]
-      }
-    },
-    {
-      "src": "client/**",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/public"
+        "zeroConfig": true
       }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/index.ts"
+      "dest": "/dist/index.js"
     },
     {
       "src": "/(.*)",
       "dest": "/dist/public/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/dist/public/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production"
   },
   "functions": {
-    "server/index.ts": {
+    "dist/index.js": {
       "maxDuration": 30
     }
   },
