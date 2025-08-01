@@ -4,3 +4,10 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+*.exe
+exe-build/
+native-app/
+portable-app/
+.env
+.env.local
+package-lock.json
