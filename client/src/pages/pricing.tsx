@@ -7,12 +7,14 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
-import { Copy, Check, Star, Quote } from 'lucide-react';
+import { Copy, Check, Star, Quote, LogOut, Home } from 'lucide-react';
 import QRCode from 'qrcode';
 
 interface PricingProps {
   user: any;
   onSubscriptionComplete: () => Promise<boolean>;
+  onLogout?: () => void;
+  onBackToHome?: () => void;
 }
 
 // Testimonial data
@@ -127,7 +129,7 @@ const testimonials = [
   }
 ];
 
-export default function Pricing({ user, onSubscriptionComplete }: PricingProps) {
+export default function Pricing({ user, onSubscriptionComplete, onLogout, onBackToHome }: PricingProps) {
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [paymentTxHash, setPaymentTxHash] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
@@ -312,6 +314,35 @@ export default function Pricing({ user, onSubscriptionComplete }: PricingProps) 
       />
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-6xl">
+        {/* Header with Navigation Buttons */}
+        <div className="flex justify-between items-center mb-6 sm:mb-8">
+          <div className="flex gap-3">
+            {onBackToHome && (
+              <Button
+                onClick={onBackToHome}
+                variant="ghost"
+                className="text-gray-300 hover:text-white hover:bg-gray-800/50 flex items-center gap-2"
+              >
+                <Home className="w-4 h-4" />
+                Back to Home
+              </Button>
+            )}
+          </div>
+          
+          <div className="flex gap-3">
+            {onLogout && (
+              <Button
+                onClick={onLogout}
+                variant="ghost"
+                className="text-red-400 hover:text-red-300 hover:bg-red-900/20 flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </Button>
+            )}
+          </div>
+        </div>
+
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">Choose Your Plan</h1>
           <p className="text-gray-300 text-sm sm:text-base">Welcome {user.username}! Select a subscription plan to access the platform</p>

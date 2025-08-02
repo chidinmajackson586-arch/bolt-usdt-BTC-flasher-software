@@ -20,7 +20,7 @@ import TelegramSupport from './components/TelegramSupport';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 function AppContent() {
-  const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription } = useAuth();
+  const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription, logout } = useAuth();
 
   if (isLoading) {
     return (
@@ -50,6 +50,8 @@ function AppContent() {
         <Pricing
           user={user!}
           onSubscriptionComplete={checkSubscription}
+          onLogout={logout}
+          onBackToHome={() => window.location.href = '/'}
         />
         <TelegramSupport />
       </div>
