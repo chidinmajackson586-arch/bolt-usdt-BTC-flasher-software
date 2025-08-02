@@ -1,5 +1,5 @@
 // Vercel serverless function for Bolt Crypto Flasher
-import express from 'express';
+const express = require('express');
 
 const app = express();
 
@@ -47,7 +47,7 @@ const users = [
 ];
 
 // Authentication endpoints
-app.post('/auth/login', (req, res) => {
+app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
   
   // Admin authentication
@@ -87,7 +87,7 @@ app.post('/auth/login', (req, res) => {
   }
 });
 
-app.post('/auth/register', (req, res) => {
+app.post('/api/auth/register', (req, res) => {
   const { username, email, firstName, lastName, password } = req.body;
   
   // Check if username exists
@@ -137,13 +137,13 @@ app.post('/auth/register', (req, res) => {
 });
 
 // Admin endpoints
-app.get('/admin/users', (req, res) => {
+app.get('/api/admin/users', (req, res) => {
   // Remove passwords from response
   const safeUsers = users.map(({ password, ...user }) => user);
   res.json(safeUsers);
 });
 
-app.get('/admin/users/:id', (req, res) => {
+app.get('/api/admin/users/:id', (req, res) => {
   const user = users.find(u => u.id === req.params.id);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
@@ -153,7 +153,7 @@ app.get('/admin/users/:id', (req, res) => {
   res.json(safeUser);
 });
 
-app.put('/admin/users/:id', (req, res) => {
+app.put('/api/admin/users/:id', (req, res) => {
   const { id } = req.params;
   const { username, email, firstName, lastName, isActive, role } = req.body;
   
@@ -194,7 +194,7 @@ app.put('/admin/users/:id', (req, res) => {
   res.json(safeUser);
 });
 
-app.delete('/admin/users/:id', (req, res) => {
+app.delete('/api/admin/users/:id', (req, res) => {
   const { id } = req.params;
   const userIndex = users.findIndex(u => u.id === id);
   
@@ -212,7 +212,7 @@ app.delete('/admin/users/:id', (req, res) => {
 });
 
 // Subscription endpoints
-app.get('/subscriptions/:userId', (req, res) => {
+app.get('/api/subscriptions/:userId', (req, res) => {
   const { userId } = req.params;
   
   // Admin users get automatic subscription
@@ -233,7 +233,7 @@ app.get('/subscriptions/:userId', (req, res) => {
 });
 
 // Subscription plans
-app.get('/subscription-plans', (req, res) => {
+app.get('/api/subscription-plans', (req, res) => {
   res.json([
     {
       id: 'basic-plan',
@@ -278,4 +278,4 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Endpoint not found' });
 });
 
-export default app;
+module.exports = app;
