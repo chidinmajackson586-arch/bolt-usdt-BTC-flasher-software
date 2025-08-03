@@ -7,6 +7,24 @@ Bolt Crypto Flasher is a production-ready web application providing a profession
 Preferred communication style: Simple, everyday language.
 Distribution requirement: Always apply changes to all three distribution versions (web app, .exe file, and native desktop app).
 
+# Recent Changes (August 3, 2025)
+
+## Authentication System Fixes
+- Fixed admin role assignment in database (admin users now have role="admin")
+- Enhanced auth hook to check both username and role for admin access
+- Updated User interface to include email, firstName, lastName, role fields
+- Admin users now properly bypass subscription requirements
+
+## UI/UX Improvements  
+- Fixed missing Home and Logout buttons on pricing page
+- Added fallback functionality for navigation buttons
+- Enhanced sidebar admin panel access based on role checking
+
+## Deployment Configuration
+- Changed deployment target from "static" to "cloudrun" 
+- Removed conflicting static website files
+- Configured proper build and start commands for React app deployment
+
 # System Architecture
 
 ## Frontend Architecture

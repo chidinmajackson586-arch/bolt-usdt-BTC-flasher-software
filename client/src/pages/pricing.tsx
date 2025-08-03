@@ -317,29 +317,29 @@ export default function Pricing({ user, onSubscriptionComplete, onLogout, onBack
         {/* Header with Navigation Buttons */}
         <div className="flex justify-between items-center mb-6 sm:mb-8">
           <div className="flex gap-3">
-            {onBackToHome && (
-              <Button
-                onClick={onBackToHome}
-                variant="ghost"
-                className="text-gray-300 hover:text-white hover:bg-gray-800/50 flex items-center gap-2"
-              >
-                <Home className="w-4 h-4" />
-                Back to Home
-              </Button>
-            )}
+            <Button
+              onClick={onBackToHome || (() => window.location.href = '/')}
+              variant="ghost"
+              className="text-gray-300 hover:text-white hover:bg-gray-800/50 flex items-center gap-2"
+            >
+              <Home className="w-4 h-4" />
+              Back to Home
+            </Button>
           </div>
           
           <div className="flex gap-3">
-            {onLogout && (
-              <Button
-                onClick={onLogout}
-                variant="ghost"
-                className="text-red-400 hover:text-red-300 hover:bg-red-900/20 flex items-center gap-2"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </Button>
-            )}
+            <Button
+              onClick={onLogout || (() => {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('auth_user');
+                window.location.reload();
+              })}
+              variant="ghost"
+              className="text-red-400 hover:text-red-300 hover:bg-red-900/20 flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </Button>
           </div>
         </div>
 
