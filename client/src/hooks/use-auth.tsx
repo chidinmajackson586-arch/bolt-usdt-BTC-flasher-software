@@ -3,6 +3,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 interface User {
   id: string;
   username: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  role?: string;
 }
 
 interface AuthContextType {
@@ -28,8 +32,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const checkSubscription = async (): Promise<boolean> => {
     if (!user) return false;
     
-    // Admin users bypass subscription check
-    if (ADMIN_USERS.includes(user.username)) {
+    // Admin users bypass subscription check (by username or role)
+    if (ADMIN_USERS.includes(user.username) || user.role === 'admin') {
       setHasActiveSubscription(true);
       return true;
     }

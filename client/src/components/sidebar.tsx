@@ -23,7 +23,7 @@ export default function Sidebar() {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   
-  const isAdmin = user && (user.username === 'admin' || user.username === 'SoftwareHenry');
+  const isAdmin = user && (user.username === 'admin' || user.username === 'SoftwareHenry' || user.role === 'admin');
   const allNavItems = isAdmin ? [...navItems, ...adminNavItems] : navItems;
 
   if (isMobile) {
