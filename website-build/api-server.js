@@ -257,15 +257,28 @@ const apiEndpoints = {
       return { status: 400, data: { message: "Username and password are required" } };
     }
 
+    // Debug logging for credential checking
+    console.log('Login attempt:', username);
+    console.log('Available users:', storage.users.map(u => ({ username: u.username, password: u.password })));
+
     const user = await storage.getUserByUsername(username);
     if (!user || user.password !== password) {
+      console.log('Login failed for:', username, 'User found:', !!user, 'Password match:', user ? user.password === password : false);
       return { status: 401, data: { message: "Invalid credentials" } };
     }
 
+    console.log('Login successful for:', username);
     return {
       status: 200,
       data: {
-        user: { id: user.id, username: user.username, email: user.email, role: user.role },
+        user: { 
+          id: user.id, 
+          username: user.username, 
+          email: user.email, 
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role 
+        },
         token: `token_${user.id}`
       }
     };

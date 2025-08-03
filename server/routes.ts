@@ -31,7 +31,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // In production, use proper session management
       res.json({ 
-        user: { id: user.id, username: user.username },
+        user: { 
+          id: user.id, 
+          username: user.username, 
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role
+        },
         token: `token_${user.id}` // Simplified token
       });
     } catch (error) {
@@ -72,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ 
         user: { 
-          id: newUser.id, 
+          id: newUser.id,
           username: newUser.username,
           email: newUser.email,
           firstName: newUser.firstName,
