@@ -7,9 +7,17 @@
       "output": "dist-electron"
     },
     "files": [
-      "electron/main.js",
+      "electron/**/*",
       "dist/**/*",
-      "node_modules/**/*"
+      "server/**/*",
+      "shared/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "dist",
+        "to": "dist"
+      }
     ],
     "win": {
       "target": "nsis",
@@ -18,6 +26,7 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "asar": false
   }
 }

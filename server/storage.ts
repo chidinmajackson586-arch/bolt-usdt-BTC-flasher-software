@@ -10,6 +10,7 @@ import {
 import { db } from './db';
 import { eq, and, sql } from 'drizzle-orm';
 import { randomUUID } from "crypto";
+import { offlineStorage } from './offline-storage';
 
 export interface IStorage {
   // User operations
@@ -55,6 +56,14 @@ export interface IStorage {
 
 
 export class DatabaseStorage implements IStorage {
+  private isOfflineMode = !db;
+  
+  // Return offline storage methods if db is null
+  private checkDb() {
+    if (this.isOfflineMode) {
+      throw new Error("Database operations not available in offline mode");
+    }
+  }
   private gasReceiverAddress: string = "TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y";
 
   constructor() {
@@ -366,4 +375,6 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+// Use offline storage for production exe builds
+const isProductionExe = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL;
+export const storage = isProductionExe ? offlineStorage : new DatabaseStorage();
