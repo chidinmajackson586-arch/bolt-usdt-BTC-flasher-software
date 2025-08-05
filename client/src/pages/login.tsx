@@ -90,29 +90,34 @@ export default function Login() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="Enter your username"
                 disabled={isLoading}
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-white">Password</Label>
+              <Label htmlFor="password" className="text-white text-sm sm:text-base">Password</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="Enter your password"
                 disabled={isLoading}
+                autoComplete="current-password"
               />
             </div>
 
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-base font-medium"
             >
               {isLoading ? (
                 <>

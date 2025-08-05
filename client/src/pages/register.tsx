@@ -91,9 +91,13 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
                 type="text"
                 value={formData.username}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="Choose a unique username"
                 required
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
               />
             </div>
 
@@ -104,8 +108,9 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="your.email@example.com"
+                autoComplete="email"
               />
             </div>
 
@@ -141,9 +146,10 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="Create a secure password"
                 required
+                autoComplete="new-password"
               />
             </div>
 
@@ -154,16 +160,17 @@ export default function Register({ onRegistrationSuccess, onBackToLogin }: Regis
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500"
+                className="bg-gray-800 border-gray-600 text-white focus:border-purple-500 text-base"
                 placeholder="Confirm your password"
                 required
+                autoComplete="new-password"
               />
             </div>
 
             <Button
               type="submit"
               disabled={registerMutation.isPending}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-base font-medium"
             >
               {registerMutation.isPending ? 'Creating Account...' : 'Create Account'}
             </Button>
