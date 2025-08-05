@@ -39,7 +39,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`/api/subscriptions/${user.id}`);
+      const response = await fetch(`/api/subscriptions/${user.id}`, {
+        credentials: 'include', // Essential for Safari iOS
+      });
       if (response.ok) {
         const subscription = await response.json();
         const hasActive = subscription && subscription.status === 'active';
@@ -62,21 +64,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check if user is already logged in from localStorage
-    const storedToken = localStorage.getItem('auth_token');
-    const storedUser = localStorage.getItem('auth_user');
-    
-    if (storedToken && storedUser) {
-      try {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
-        // Check subscription after setting user
-        if (userData) {
-          checkSubscription();
+    try {
+      const storedToken = localStorage.getItem('auth_token');
+      const storedUser = localStorage.getItem('auth_user');
+      
+      if (storedToken && storedUser) {
+        try {
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
+          // Check subscription after setting user
+          if (userData) {
+            checkSubscription();
+          }
+        } catch (error) {
+          // Clear invalid data
+          try {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_user');
+          } catch (e) {
+            // Safari private mode may throw
+          }
         }
-      } catch (error) {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('auth_user');
       }
+    } catch (e) {
+      // localStorage may not be available in Safari private mode
+      console.warn('localStorage not available');
     }
     setIsLoading(false);
   }, []);
@@ -98,14 +110,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include', // Essential for Safari iOS
       });
 
       if (response.ok) {
         const data = await response.json();
         
         setUser(data.user);
-        localStorage.setItem('auth_token', data.token);
-        localStorage.setItem('auth_user', JSON.stringify(data.user));
+        
+        // Try to save to localStorage, but handle Safari private browsing mode
+        try {
+          localStorage.setItem('auth_token', data.token);
+          localStorage.setItem('auth_user', JSON.stringify(data.user));
+        } catch (e) {
+          // Safari in private mode may throw, but session cookies will still work
+          console.warn('localStorage not available, using session storage only');
+        }
+        
         return true;
       }
       return false;
@@ -117,7 +138,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('/api/auth/logout', { 
+        method: 'POST',
+        credentials: 'include', // Essential for Safari iOS
+      });
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
