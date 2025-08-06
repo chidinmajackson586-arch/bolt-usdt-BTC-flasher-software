@@ -1,11 +1,7 @@
 User-agent: *
 Allow: /
 
-# Disallow admin areas for security
-Disallow: /admin
-Disallow: /api/
-
-# Allow important pages
+# Priority pages for crawling
 Allow: /dashboard
 Allow: /send
 Allow: /pricing
@@ -13,19 +9,28 @@ Allow: /history
 Allow: /charts
 Allow: /settings
 
+# Disallow admin areas
+Disallow: /admin
+Disallow: /api/admin/
+
+# Allow API endpoints for structured data
+Allow: /api/structured-data/
+
 # Sitemap location
-Sitemap: https://boltcryptoflasher.com/sitemap.xml
+Sitemap: https://boltflasher.live/sitemap.xml
 
 # Crawl delay to be respectful
 Crawl-delay: 1
 
-# Additional SEO directives
-Allow: /og-image.png
-Allow: /dashboard-preview.png
-Allow: /pricing-preview.png
-Allow: /send-preview.png
+# Search engine specific directives
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
 
-# Block unnecessary crawling
-Disallow: /static/
-Disallow: /_next/
-Disallow: /vite/
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1

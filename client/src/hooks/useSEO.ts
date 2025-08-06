@@ -21,7 +21,7 @@ export function useSEO({
   noIndex,
   structuredData
 }: SEOOptions) {
-  const baseUrl = import.meta.env.PROD ? 'https://boltcryptoflasher.com' : 'http://localhost:5000';
+  const baseUrl = import.meta.env.PROD ? 'https://boltflasher.live' : 'http://localhost:5000';
 
   useEffect(() => {
     // Update document title

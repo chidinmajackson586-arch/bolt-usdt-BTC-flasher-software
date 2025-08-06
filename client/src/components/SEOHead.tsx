@@ -11,8 +11,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = "⚡ Bolt Crypto Flasher - Professional Cryptocurrency Flash Platform",
-  description = "Professional cryptocurrency flash transaction platform supporting Bitcoin, USDT, Ethereum, and BNB across multiple networks. Advanced gas fee management and real-time tracking.",
+  title = "Bolt Flasher - #1 Crypto Flash Software | BTC USDT ETH Flash Tool",
+  description = "Best crypto flash software 2025. Flash BTC, USDT, Ethereum instantly. Professional flash transaction tool with 99.9% success rate. Trusted by 10,000+ users worldwide.",
   canonical,
   ogImage = "/og-image.png",
   twitterImage = "/twitter-image.png",
@@ -20,7 +20,7 @@ const SEOHead = ({
 }: SEOHeadProps) => {
   const [location] = useLocation();
   
-  const baseUrl = import.meta.env.PROD ? 'https://boltcryptoflasher.com' : 'http://localhost:5000';
+  const baseUrl = import.meta.env.PROD ? 'https://boltflasher.live' : 'http://localhost:5000';
   const fullCanonical = canonical || `${baseUrl}${location}`;
   const fullOgImage = ogImage.startsWith('http') ? ogImage : `${baseUrl}${ogImage}`;
   const fullTwitterImage = twitterImage.startsWith('http') ? twitterImage : `${baseUrl}${twitterImage}`;

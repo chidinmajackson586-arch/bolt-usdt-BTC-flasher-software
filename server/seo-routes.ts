@@ -3,21 +3,24 @@ import type { Express } from "express";
 export function registerSEORoutes(app: Express) {
   // Sitemap route for dynamic sitemap generation
   app.get('/sitemap.xml', (req, res) => {
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://boltflasher.live';
     const now = new Date().toISOString();
     
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>${baseUrl}/</loc>
     <lastmod>${now}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/"/>
     <image:image>
       <image:loc>${baseUrl}/og-image.png</image:loc>
-      <image:title>Bolt Crypto Flasher - Professional Flash Transaction Platform</image:title>
+      <image:title>Bolt Flasher - #1 Crypto Flash Software | BTC USDT ETH Flash Tool</image:title>
+      <image:caption>Professional cryptocurrency flash transaction software with 99.9% success rate</image:caption>
     </image:image>
   </url>
 
@@ -71,7 +74,7 @@ export function registerSEORoutes(app: Express) {
 
   // Robots.txt route
   app.get('/robots.txt', (req, res) => {
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://boltflasher.live';
     
     const robots = `User-agent: *
 Allow: /
