@@ -18,6 +18,10 @@ import NotFound from "./pages/not-found";
 import Pricing from '@/pages/pricing';
 import TelegramSupport from './components/TelegramSupport';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import Terms from './pages/terms';
+import Privacy from './pages/privacy';
+import FAQ from './pages/faq';
+import RefundPolicy from './pages/refund';
 
 function AppContent() {
   const { isAuthenticated, isLoading, hasActiveSubscription, user, checkSubscription, logout } = useAuth();
@@ -35,10 +39,18 @@ function AppContent() {
 
   if (!isAuthenticated) {
     return (
-      <div className="relative">
-        <Login />
-        <TelegramSupport />
-      </div>
+      <Switch>
+        <Route path="/terms" component={Terms} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/refund" component={RefundPolicy} />
+        <Route>
+          <div className="relative">
+            <Login />
+            <TelegramSupport />
+          </div>
+        </Route>
+      </Switch>
     );
   }
 
