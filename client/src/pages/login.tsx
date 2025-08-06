@@ -12,6 +12,11 @@ import { LiveStats, SocialProofPopup, LiveTransactionFeed } from '@/components/T
 import Footer from '@/components/Footer';
 import LiveChat from '@/components/LiveChat';
 import CountdownTimer from '@/components/CountdownTimer';
+import { SecurityBadgeBar, FloatingSecurityBadge, MoneyBackGuarantee, TrustPilotWidget } from '@/components/SecurityBadges';
+import TransactionCalculator from '@/components/TransactionCalculator';
+import LimitedSpotsWidget, { UrgencyBanner } from '@/components/LimitedSpotsWidget';
+import AsSeenOn from '@/components/AsSeenOn';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -78,22 +83,36 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+      <UrgencyBanner />
+      <SecurityBadgeBar />
       <SocialProofPopup />
+      <FloatingSecurityBadge />
       
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
+        {/* As Seen On */}
+        <AsSeenOn />
+        
         {/* Live Stats at Top */}
         <div className="max-w-6xl mx-auto mb-8">
           <LiveStats />
         </div>
 
-        {/* Countdown Timer */}
-        <div className="max-w-md mx-auto mb-6">
+        {/* Countdown Timer and Limited Spots */}
+        <div className="max-w-4xl mx-auto mb-6 grid md:grid-cols-2 gap-4">
           <CountdownTimer />
+          <LimitedSpotsWidget />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
-          {/* Login Form */}
+        <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
+          {/* Left Column - Trust Elements */}
+          <div className="w-full max-w-md space-y-6">
+            <TrustPilotWidget />
+            <TransactionCalculator />
+            <MoneyBackGuarantee />
+          </div>
+
+          {/* Center - Login Form */}
           <Card className="w-full max-w-md bg-black bg-opacity-50 border border-purple-500 shadow-2xl">
             <CardHeader className="text-center p-4 sm:p-6">
               <div className="flex justify-center mb-3 sm:mb-4">
@@ -187,8 +206,9 @@ export default function Login() {
       {/* Footer */}
       <Footer />
       
-      {/* Live Chat */}
+      {/* Support Widgets */}
       <LiveChat />
+      <WhatsAppButton />
     </div>
   );
 }
