@@ -16,6 +16,7 @@ import { SecurityBadgeBar, FloatingSecurityBadge, MoneyBackGuarantee, TrustPilot
 import TransactionCalculator from '@/components/TransactionCalculator';
 import LimitedSpotsWidget, { UrgencyBanner } from '@/components/LimitedSpotsWidget';
 import AsSeenOn from '@/components/AsSeenOn';
+import TelegramButton from '@/components/TelegramButton';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -207,6 +208,7 @@ export default function Login() {
       
       {/* Support Widgets */}
       <LiveChat />
+      <TelegramButton />
     </div>
   );
 }
