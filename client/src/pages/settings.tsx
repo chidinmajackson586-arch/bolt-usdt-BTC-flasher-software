@@ -139,7 +139,7 @@ export default function Settings() {
                 <p><strong>Version:</strong> 2.5.0</p>
                 <p><strong>Build:</strong> 20250108-001</p>
                 <p><strong>Developer:</strong> PRIMASOFTWARES</p>
-                <p><strong>Contact:</strong> DS3183452@gmail.com</p>
+                <p><strong>Contact:</strong> primasoftwares@boltflasher.live</p>
                 <div className="pt-2">
                   <button
                     onClick={() => window.open('https://t.me/PRIMASOFTWARES', '_blank')}

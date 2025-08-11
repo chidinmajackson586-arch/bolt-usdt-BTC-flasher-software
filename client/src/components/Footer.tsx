@@ -76,7 +76,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="mailto:DS3183452@gmail.com" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
+                <a href="mailto:primasoftwares@boltflasher.live" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   Email Support
                 </a>
@@ -94,7 +94,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <div className="space-y-2 text-gray-400 text-sm">
-              <p>Email: DS3183452@gmail.com</p>
+              <p>Email: primasoftwares@boltflasher.live</p>
               <p>Telegram: PRIMASOFTWARES</p>
               <p>Response Time: 24/7 Support</p>
             </div>
