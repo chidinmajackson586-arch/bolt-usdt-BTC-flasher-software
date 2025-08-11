@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SEOHead from '@/components/SEOHead';
+import { SEOHelper } from '@/components/SEOHelper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
