@@ -352,7 +352,7 @@ export default function Homepage() {
               </Link>
               <Link href="/register">
                 <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-yellow-500 text-lg px-8 py-6">
-                  Start Free Trial
+                  Create Account
                 </Button>
               </Link>
             </div>
