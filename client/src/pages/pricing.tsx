@@ -142,18 +142,26 @@ export default function Pricing({ user, onSubscriptionComplete, onLogout, onBack
 
   const usdtAddress = "TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y";
 
-  // Fetch subscription plans
-  const { data: plans = [] } = useQuery({
-    queryKey: ['/api/subscription-plans'],
-  });
-
-  // Type-safe plans with proper typing
-  const typedPlans = plans as Array<{
-    id: string;
-    name: string;
-    price: string;
-    features: string[];
-  }>;
+  // Single premium plan
+  const premiumPlan = {
+    id: 'premium',
+    name: 'Premium Access',
+    price: '7500',
+    features: [
+      'Unlimited Flash Transactions',
+      'All Networks Supported (BTC, ETH, USDT, BNB, TRX)',
+      'Priority 24/7 Support',
+      'Advanced Security Features',
+      'Bulk Transaction Processing',
+      'Transaction Templates',
+      'Portfolio Tracker',
+      'Price Alerts & Notifications',
+      'API Access',
+      'Affiliate Program Access',
+      'Custom Integration Support',
+      'Lifetime Updates'
+    ]
+  };
 
   // Generate QR code for USDT address
   useEffect(() => {
@@ -320,8 +328,8 @@ export default function Pricing({ user, onSubscriptionComplete, onLogout, onBack
   return (
     <>
       <SEOHead 
-        title="💎 Pricing Plans - Bolt Crypto Flasher"
-        description="Choose your cryptocurrency flash transaction plan. Basic ($550), Pro ($950), or Full ($3000) access. Professional crypto platform with multi-network support and advanced features."
+        title="💎 Premium Access - Bolt Crypto Flasher"
+        description="Get full access to Bolt Crypto Flasher premium platform. $7500 lifetime access with unlimited flash transactions, all networks supported, and advanced features."
         canonical="/pricing"
         ogImage="/pricing-preview.png"
       />
@@ -357,50 +365,42 @@ export default function Pricing({ user, onSubscriptionComplete, onLogout, onBack
         </div>
 
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">Choose Your Plan</h1>
-          <p className="text-gray-300 text-sm sm:text-base">Welcome {user.username}! Select a subscription plan to access the platform</p>
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2">Premium Access Required</h1>
+          <p className="text-gray-300 text-sm sm:text-base">Welcome {user.username}! Unlock full platform access with our premium plan</p>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 mb-12">
-          {typedPlans.map((plan) => (
-            <Card 
-              key={plan.id} 
-              className={`flex-1 bg-black bg-opacity-50 border shadow-2xl hover:shadow-purple-500/20 transition-all ${
-                plan.name === 'Pro' ? 'border-purple-500 transform scale-105 lg:scale-110' : 'border-gray-600'
-              }`}
-            >
-              <CardHeader className="text-center p-4 sm:p-6">
-                {plan.name === 'Pro' && (
-                  <div className="bg-purple-500 text-white text-xs font-bold py-1 px-3 rounded-full mb-2 inline-block">
-                    MOST POPULAR
-                  </div>
-                )}
-                <CardTitle className="text-xl sm:text-2xl font-bold text-white">{plan.name}</CardTitle>
-                <div className="text-2xl sm:text-3xl font-bold text-purple-400">${plan.price}</div>
-                <p className="text-gray-400 text-sm">USDT Payment</p>
-              </CardHeader>
-              <CardContent className="p-4 sm:p-6">
-                <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-                  {plan.features.map((feature: string, index: number) => (
-                    <li key={index} className="flex items-center text-gray-300 text-sm sm:text-base">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  onClick={() => handlePlanSelect(plan)}
-                  className={`w-full text-sm sm:text-base ${
-                    plan.name === 'Pro' 
-                      ? 'bg-purple-600 hover:bg-purple-700' 
-                      : 'bg-gray-700 hover:bg-gray-600'
-                  } text-white`}
-                >
-                  Select {plan.name}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="flex justify-center mb-12">
+          <Card 
+            className="w-full max-w-2xl bg-black bg-opacity-50 border border-purple-500 shadow-2xl hover:shadow-purple-500/20 transition-all transform scale-105"
+          >
+            <CardHeader className="text-center p-6 sm:p-8">
+              <div className="bg-gradient-to-r from-purple-500 to-violet-500 text-white text-sm font-bold py-2 px-4 rounded-full mb-4 inline-block">
+                LIFETIME ACCESS
+              </div>
+              <CardTitle className="text-3xl sm:text-4xl font-bold text-white mb-2">{premiumPlan.name}</CardTitle>
+              <div className="text-4xl sm:text-5xl font-bold text-purple-400">${premiumPlan.price}</div>
+              <p className="text-gray-400 text-sm mt-2">One-time USDT Payment</p>
+            </CardHeader>
+            <CardContent className="p-6 sm:p-8">
+              <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                {premiumPlan.features.map((feature: string, index: number) => (
+                  <li key={index} className="flex items-center text-gray-300 text-base sm:text-lg">
+                    <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Button
+                onClick={() => handlePlanSelect(premiumPlan)}
+                className="w-full text-lg sm:text-xl bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white py-6"
+              >
+                Get Premium Access Now
+              </Button>
+              <p className="text-center text-gray-400 text-sm mt-4">
+                ⚡ Instant activation after payment approval
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Testimonials Section */}

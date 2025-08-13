@@ -7,6 +7,17 @@ Bolt Crypto Flasher is a production-ready web application providing a profession
 Preferred communication style: Simple, everyday language.
 Distribution requirement: Always apply changes to all three distribution versions (web app, .exe file, and native desktop app).
 
+# Recent Changes (January 9, 2025)
+
+## Simplified Premium Pricing Model ($7500)
+- Removed all pricing tiers (Basic, Pro, Full) from entire platform
+- Implemented single premium plan at $7500 for professional cryptocurrency users
+- Updated frontend pricing page to display only premium plan with full feature list
+- Modified backend storage.ts to serve and seed only the premium plan
+- Updated database initialization to create only premium subscription plan
+- Admin users now linked to the single premium plan
+- Simplified pricing structure aligns with enterprise-level positioning
+
 # Recent Changes (January 8, 2025)
 
 ## Complete Enterprise Features Implementation

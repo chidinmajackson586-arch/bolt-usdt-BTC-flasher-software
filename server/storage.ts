@@ -95,22 +95,26 @@ export class DatabaseStorage implements IStorage {
         lastName: "Software",
       }).returning();
 
-      // Create subscription plans
+      // Create premium subscription plan
       const plans = await db.insert(subscriptionPlans).values([
         {
-          name: "Basic",
-          price: "550",
-          features: ["BTC Flash", "ETH Flash", "Basic Support"],
-        },
-        {
-          name: "Pro", 
-          price: "950",
-          features: ["All Basic Features", "USDT Flash", "BNB Flash", "Priority Support"],
-        },
-        {
-          name: "Full",
-          price: "3000",
-          features: ["All Networks", "Premium Support", "Custom Flash Options", "API Access"],
+          id: 'premium',
+          name: 'Premium Access',
+          price: '7500',
+          features: [
+            'Unlimited Flash Transactions',
+            'All Networks Supported (BTC, ETH, USDT, BNB, TRX)',
+            'Priority 24/7 Support',
+            'Advanced Security Features',
+            'Bulk Transaction Processing',
+            'Transaction Templates',
+            'Portfolio Tracker',
+            'Price Alerts & Notifications',
+            'API Access',
+            'Affiliate Program Access',
+            'Custom Integration Support',
+            'Lifetime Updates'
+          ]
         }
       ]).returning();
 
@@ -151,18 +155,18 @@ export class DatabaseStorage implements IStorage {
       ]).onConflictDoNothing().returning();
 
       // Create admin subscriptions
-      if (adminUser[0] && henryUser[0] && plans[2]) {
+      if (adminUser[0] && henryUser[0] && plans[0]) {
         await db.insert(userSubscriptions).values([
           {
             userId: adminUser[0].id,
-            planId: plans[2].id,
+            planId: plans[0].id,
             status: "active",
             paymentTxHash: "admin-default",
             expiresAt: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000), // 10 years
           },
           {
             userId: henryUser[0].id,
-            planId: plans[2].id,
+            planId: plans[0].id,
             status: "active", 
             paymentTxHash: "admin-default",
             expiresAt: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000), // 10 years
@@ -291,7 +295,27 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
-    return await db.select().from(subscriptionPlans);
+    // Return single premium plan
+    return [{
+      id: 'premium',
+      name: 'Premium Access',
+      price: '7500',
+      features: [
+        'Unlimited Flash Transactions',
+        'All Networks Supported (BTC, ETH, USDT, BNB, TRX)',
+        'Priority 24/7 Support',
+        'Advanced Security Features',
+        'Bulk Transaction Processing',
+        'Transaction Templates',
+        'Portfolio Tracker',
+        'Price Alerts & Notifications',
+        'API Access',
+        'Affiliate Program Access',
+        'Custom Integration Support',
+        'Lifetime Updates'
+      ],
+      createdAt: new Date()
+    }];
   }
 
   async getUserSubscriptions(userId: string): Promise<UserSubscription[]> {
