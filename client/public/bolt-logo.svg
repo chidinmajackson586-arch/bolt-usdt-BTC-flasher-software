@@ -20,7 +20,7 @@
     </linearGradient>
     
     <!-- Inner glow -->
-    <radialGradient id="innerGlow" cx="50%" cy="40%">
+    <radialGradient id="innerGlow" cx="50%" cy="50%">
       <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.8" />
       <stop offset="50%" style="stop-color:#FFD700;stop-opacity:0.4" />
       <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
@@ -36,16 +36,6 @@
         <feMergeNode/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
-    </filter>
-    
-    <!-- Realistic metallic texture -->
-    <filter id="metallicTexture">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" result="turbulence" seed="2"/>
-      <feColorMatrix in="turbulence" type="saturate" values="0"/>
-      <feComponentTransfer>
-        <feFuncA type="discrete" tableValues="0 0.05 0.1 0.05 0"/>
-      </feComponentTransfer>
-      <feComposite operator="over" in2="SourceGraphic"/>
     </filter>
     
     <!-- Circuit pattern mask -->
@@ -67,7 +57,7 @@
     <rect x="0" y="0" width="200" height="200" fill="url(#circuitPattern)"/>
   </g>
   
-  <!-- Main hexagon container for modern tech look -->
+  <!-- Main hexagon container centered -->
   <g transform="translate(100,100)">
     <!-- Hexagon shadow -->
     <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
@@ -81,47 +71,52 @@
           stroke="url(#metalGold)"
           stroke-width="2"
           opacity="0.8"/>
+    
+    <!-- Hexagon inner glow -->
+    <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+          fill="url(#innerGlow)"
+          opacity="0.1"/>
   </g>
   
-  <!-- Professional lightning bolt design -->
+  <!-- Centered lightning bolt within hexagon -->
   <g filter="url(#professionalShadow)">
-    <!-- Base bolt shape with rounded edges for modern look -->
-    <path d="M 95 50 
-             Q 94 52, 92 55
-             L 75 85
-             Q 74 86, 75 87
-             L 95 87
-             Q 96 87, 95.5 88
-             L 80 140
-             Q 79 143, 82 141
-             L 105 95
-             Q 106 93, 105 92
-             L 85 92
-             Q 84 92, 84.5 91
-             L 104 51
-             Q 105 49, 103 49
-             L 96 49
-             Q 95 49, 95 50 Z"
+    <!-- Main bolt shape perfectly centered -->
+    <path d="M 100 70 
+             Q 99 72, 97 75
+             L 85 95
+             Q 84 96, 85 97
+             L 95 97
+             Q 96 97, 95.5 98
+             L 85 125
+             Q 84 128, 87 126
+             L 115 95
+             Q 116 93, 115 92
+             L 105 92
+             Q 104 92, 104.5 91
+             L 113 72
+             Q 114 70, 112 70
+             L 101 70
+             Q 100 70, 100 70 Z"
           fill="url(#chromeEffect)"
           stroke="url(#metalGold)"
           stroke-width="1"
           stroke-linejoin="round"/>
     
     <!-- Inner highlight for 3D effect -->
-    <path d="M 96 53
-             L 85 75
-             L 93 75
-             L 85 110
-             L 95 85
-             L 87 85
-             L 97 53 Z"
+    <path d="M 101 73
+             L 92 88
+             L 98 88
+             L 92 115
+             L 105 92
+             L 99 92
+             L 107 73 Z"
           fill="url(#innerGlow)"
           opacity="0.7"/>
     
     <!-- Metallic edge highlight -->
-    <path d="M 95 50 
-             Q 94 52, 92 55
-             L 80 70"
+    <path d="M 100 70 
+             Q 99 72, 97 75
+             L 90 85"
           fill="none"
           stroke="#FFFFFF"
           stroke-width="0.8"
@@ -129,59 +124,82 @@
           stroke-linecap="round"/>
   </g>
   
-  <!-- Tech dots representing data flow -->
+  <!-- Tech dots at hexagon vertices -->
   <g>
-    <circle cx="95" cy="50" r="3" fill="#FFD700">
+    <!-- Top vertex -->
+    <circle cx="100" cy="42" r="3" fill="#FFD700">
       <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="85" cy="87" r="2.5" fill="#FFA500">
-      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    <!-- Right top vertex -->
+    <circle cx="150" cy="71" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.33s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="0.33s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="105" cy="92" r="2.5" fill="#FFA500">
-      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1s" repeatCount="indefinite"/>
+    <!-- Right bottom vertex -->
+    <circle cx="150" cy="129" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.66s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="0.66s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Bottom vertex -->
+    <circle cx="100" cy="158" r="3" fill="#FFD700">
+      <animate attributeName="r" values="3;4;3" dur="2s" begin="1s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="82" cy="140" r="3" fill="#FFD700">
-      <animate attributeName="r" values="3;4;3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+    <!-- Left bottom vertex -->
+    <circle cx="50" cy="129" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1.33s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1.33s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Left top vertex -->
+    <circle cx="50" cy="71" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1.66s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1.66s" repeatCount="indefinite"/>
     </circle>
   </g>
   
-  <!-- Energy flow lines -->
+  <!-- Energy flow lines along hexagon edges -->
   <g opacity="0.6">
-    <path d="M95,50 L85,87" stroke="#FFD700" stroke-width="0.5" fill="none">
+    <path d="M100,42 L150,71" stroke="#FFD700" stroke-width="0.5" fill="none">
       <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" repeatCount="indefinite"/>
     </path>
-    <path d="M85,87 L105,92" stroke="#FFA500" stroke-width="0.5" fill="none">
-      <animate attributeName="stroke-dasharray" values="0,100;30,70;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+    <path d="M150,71 L150,129" stroke="#FFA500" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="0.5s" repeatCount="indefinite"/>
     </path>
-    <path d="M105,92 L82,140" stroke="#FFD700" stroke-width="0.5" fill="none">
-      <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+    <path d="M150,129 L100,158" stroke="#FFD700" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M100,158 L50,129" stroke="#FFA500" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M50,129 L50,71" stroke="#FFD700" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M50,71 L100,42" stroke="#FFA500" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2.5s" repeatCount="indefinite"/>
     </path>
   </g>
   
   <!-- Professional text badge -->
-  <g transform="translate(100, 170)">
+  <g transform="translate(100, 175)">
     <rect x="-40" y="-10" width="80" height="20" rx="10" fill="#1a1a1a" opacity="0.8"/>
     <text x="0" y="4" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600" fill="url(#metalGold)">
       FLASHER
     </text>
   </g>
   
-  <!-- Subtle particle effects -->
+  <!-- Subtle particle effects around hexagon -->
   <g opacity="0.4">
-    <circle cx="70" cy="60" r="0.5" fill="#FFD700">
-      <animate attributeName="cy" values="60;55;60" dur="4s" repeatCount="indefinite"/>
+    <circle cx="70" cy="50" r="0.5" fill="#FFD700">
+      <animate attributeName="cy" values="50;45;50" dur="4s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0;0.8;0" dur="4s" repeatCount="indefinite"/>
     </circle>
     <circle cx="130" cy="100" r="0.5" fill="#FFA500">
       <animate attributeName="cx" values="130;135;130" dur="4s" begin="1s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="90" cy="130" r="0.5" fill="#FFD700">
-      <animate attributeName="cy" values="130;135;130" dur="4s" begin="2s" repeatCount="indefinite"/>
+    <circle cx="90" cy="140" r="0.5" fill="#FFD700">
+      <animate attributeName="cy" values="140;145;140" dur="4s" begin="2s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2s" repeatCount="indefinite"/>
     </circle>
   </g>

@@ -39,7 +39,7 @@ export const BoltLogo: React.FC<BoltLogoProps> = ({ size = 32, className = "" })
           </linearGradient>
           
           {/* Inner glow for depth */}
-          <radialGradient id="centerGlow" cx="50%" cy="40%">
+          <radialGradient id="centerGlow" cx="50%" cy="50%">
             <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
             <stop offset="50%" stopColor="#FFD700" stopOpacity="0.4" />
             <stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
@@ -75,51 +75,64 @@ export const BoltLogo: React.FC<BoltLogoProps> = ({ size = 32, className = "" })
           <rect x="0" y="0" width="200" height="200" fill="url(#techPattern)"/>
         </g>
         
-        {/* Hexagon tech frame */}
-        <g transform="translate(100,100)" opacity="0.5">
+        {/* Hexagon tech frame centered */}
+        <g transform="translate(100,100)">
+          {/* Hexagon shadow */}
+          <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+                fill="#000000"
+                opacity="0.2"
+                transform="translate(2,4)"/>
+          
+          {/* Hexagon border */}
           <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
                 fill="none"
                 stroke="url(#metalGoldPro)"
-                strokeWidth="2"/>
+                strokeWidth="2"
+                opacity="0.8"/>
+          
+          {/* Inner glow */}
+          <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+                fill="url(#centerGlow)"
+                opacity="0.1"/>
         </g>
         
-        {/* Main professional bolt */}
+        {/* Centered lightning bolt within hexagon */}
         <g filter="url(#proShadow)">
-          {/* Smooth, modern bolt shape */}
-          <path d="M 95 50 
-                   Q 94 52, 92 55
-                   L 75 85
-                   Q 74 86, 75 87
-                   L 95 87
-                   Q 96 87, 95.5 88
-                   L 80 140
-                   Q 79 143, 82 141
-                   L 105 95
-                   Q 106 93, 105 92
-                   L 85 92
-                   Q 84 92, 84.5 91
-                   L 104 51
-                   Q 105 49, 103 49
-                   L 96 49
-                   Q 95 49, 95 50 Z"
+          {/* Main bolt shape perfectly centered */}
+          <path d="M 100 70 
+                   Q 99 72, 97 75
+                   L 85 95
+                   Q 84 96, 85 97
+                   L 95 97
+                   Q 96 97, 95.5 98
+                   L 85 125
+                   Q 84 128, 87 126
+                   L 115 95
+                   Q 116 93, 115 92
+                   L 105 92
+                   Q 104 92, 104.5 91
+                   L 113 72
+                   Q 114 70, 112 70
+                   L 101 70
+                   Q 100 70, 100 70 Z"
                 fill="url(#chromeShine)"
                 stroke="url(#metalGoldPro)"
                 strokeWidth="1"
                 strokeLinejoin="round"/>
           
           {/* Inner highlight */}
-          <path d="M 96 53
-                   L 85 75
-                   L 93 75
-                   L 85 110
-                   L 95 85
-                   L 87 85
-                   L 97 53 Z"
+          <path d="M 101 73
+                   L 92 88
+                   L 98 88
+                   L 92 115
+                   L 105 92
+                   L 99 92
+                   L 107 73 Z"
                 fill="url(#centerGlow)"
                 opacity="0.7"/>
           
           {/* Edge shine */}
-          <path d="M 95 50 Q 94 52, 92 55 L 80 70"
+          <path d="M 100 70 Q 99 72, 97 75 L 90 85"
                 fill="none"
                 stroke="#FFFFFF"
                 strokeWidth="0.8"
@@ -127,33 +140,54 @@ export const BoltLogo: React.FC<BoltLogoProps> = ({ size = 32, className = "" })
                 strokeLinecap="round"/>
         </g>
         
-        {/* Node points with pulse */}
+        {/* Node points at hexagon vertices */}
         <g>
-          <circle cx="95" cy="50" r="3" fill="#FFD700">
+          {/* Top vertex */}
+          <circle cx="100" cy="42" r="3" fill="#FFD700">
             <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
             <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="85" cy="87" r="2.5" fill="#FFA500">
-            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          {/* Right top vertex */}
+          <circle cx="150" cy="71" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.33s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="105" cy="92" r="2.5" fill="#FFA500">
-            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1s" repeatCount="indefinite"/>
+          {/* Right bottom vertex */}
+          <circle cx="150" cy="129" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.66s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="82" cy="140" r="3" fill="#FFD700">
-            <animate attributeName="r" values="3;4;3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+          {/* Bottom vertex */}
+          <circle cx="100" cy="158" r="3" fill="#FFD700">
+            <animate attributeName="r" values="3;4;3" dur="2s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+          {/* Left bottom vertex */}
+          <circle cx="50" cy="129" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1.33s" repeatCount="indefinite"/>
+          </circle>
+          {/* Left top vertex */}
+          <circle cx="50" cy="71" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1.66s" repeatCount="indefinite"/>
           </circle>
         </g>
         
-        {/* Energy flow paths */}
+        {/* Energy flow paths along hexagon edges */}
         <g opacity="0.6">
-          <path d="M95,50 L85,87" stroke="#FFD700" strokeWidth="0.5" fill="none">
+          <path d="M100,42 L150,71" stroke="#FFD700" strokeWidth="0.5" fill="none">
             <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" repeatCount="indefinite"/>
           </path>
-          <path d="M85,87 L105,92" stroke="#FFA500" strokeWidth="0.5" fill="none">
-            <animate attributeName="stroke-dasharray" values="0,100;30,70;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+          <path d="M150,71 L150,129" stroke="#FFA500" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="0.5s" repeatCount="indefinite"/>
           </path>
-          <path d="M105,92 L82,140" stroke="#FFD700" strokeWidth="0.5" fill="none">
-            <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+          <path d="M150,129 L100,158" stroke="#FFD700" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+          </path>
+          <path d="M100,158 L50,129" stroke="#FFA500" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+          </path>
+          <path d="M50,129 L50,71" stroke="#FFD700" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+          </path>
+          <path d="M50,71 L100,42" stroke="#FFA500" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2.5s" repeatCount="indefinite"/>
           </path>
         </g>
       </svg>
