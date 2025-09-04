@@ -6,134 +6,155 @@ interface BoltLogoProps {
 }
 
 export const BoltLogo: React.FC<BoltLogoProps> = ({ size = 32, className = "" }) => {
+  const scale = size / 200;
+  
   return (
     <div className={`inline-flex items-center justify-center ${className}`} style={{ width: size, height: size }}>
       <svg
         width={size}
         height={size}
-        viewBox="0 0 32 32"
+        viewBox="0 0 200 200"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-2xl"
+        className="drop-shadow-lg"
       >
-        {/* Enhanced 4D Effect with Animated Gradients */}
         <defs>
-          <linearGradient id="boltGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FFD700">
-              <animate attributeName="stop-color" values="#FFD700;#FFED4E;#FFD700" dur="3s" repeatCount="indefinite" />
-            </stop>
-            <stop offset="25%" stopColor="#FFA500">
-              <animate attributeName="stop-color" values="#FFA500;#FF8C00;#FFA500" dur="3s" repeatCount="indefinite" />
-            </stop>
-            <stop offset="50%" stopColor="#FF6B35" />
-            <stop offset="75%" stopColor="#F7931E">
-              <animate attributeName="stop-color" values="#F7931E;#FFA500;#F7931E" dur="3s" repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stopColor="#FFD700">
-              <animate attributeName="stop-color" values="#FFD700;#FFED4E;#FFD700" dur="3s" repeatCount="indefinite" />
-            </stop>
+          {/* Professional metallic gradient */}
+          <linearGradient id="metalGoldPro" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFF4E6" />
+            <stop offset="20%" stopColor="#FFEB3B" />
+            <stop offset="40%" stopColor="#FFD700" />
+            <stop offset="60%" stopColor="#FFC107" />
+            <stop offset="80%" stopColor="#FF9800" />
+            <stop offset="100%" stopColor="#F57C00" />
           </linearGradient>
-          <linearGradient id="boltShadow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8B4513" />
-            <stop offset="100%" stopColor="#CD853F" />
+          
+          {/* Chrome effect for realistic metal look */}
+          <linearGradient id="chromeShine" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+            <stop offset="30%" stopColor="#FFD700" />
+            <stop offset="50%" stopColor="#FFA500" />
+            <stop offset="70%" stopColor="#FF8C00" />
+            <stop offset="100%" stopColor="#B8860B" />
           </linearGradient>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-            <feFlood floodColor="#FFD700" floodOpacity="0.5"/>
-            <feComposite in2="coloredBlur" operator="in"/>
-            <feMerge> 
+          
+          {/* Inner glow for depth */}
+          <radialGradient id="centerGlow" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
+            <stop offset="50%" stopColor="#FFD700" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
+          </radialGradient>
+          
+          {/* Professional drop shadow */}
+          <filter id="proShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/>
+            <feOffset dx="0" dy="4" result="offsetblur"/>
+            <feFlood floodColor="#000000" floodOpacity="0.3"/>
+            <feComposite in2="offsetblur" operator="in"/>
+            <feMerge>
               <feMergeNode/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
-          <filter id="blur4D" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="0.5">
-              <animate attributeName="stdDeviation" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-            </feGaussianBlur>
-          </filter>
+          
+          {/* Circuit pattern for tech feel */}
+          <pattern id="techPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="5" cy="5" r="1.5" fill="#FFD700" opacity="0.3"/>
+            <circle cx="35" cy="35" r="1.5" fill="#FFD700" opacity="0.3"/>
+            <path d="M5,5 L35,5" stroke="#FFD700" strokeWidth="0.5" opacity="0.2"/>
+            <path d="M35,5 L35,35" stroke="#FFD700" strokeWidth="0.5" opacity="0.2"/>
+          </pattern>
         </defs>
         
-        {/* Pulsing Background Circle for 4D depth */}
-        <circle cx="16" cy="16" r="14" fill="none" stroke="#FFD700" strokeWidth="0.3" opacity="0">
-          <animate attributeName="r" values="14;16;14" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.5;0" dur="2s" repeatCount="indefinite"/>
-        </circle>
+        {/* Subtle background circles */}
+        <circle cx="100" cy="100" r="95" fill="#1a1a1a" opacity="0.05"/>
+        <circle cx="100" cy="100" r="90" fill="#2a2a2a" opacity="0.03"/>
         
-        {/* Multiple 3D Shadow Layers for Depth */}
-        <path
-          d="M18 3l-2 1-8 12h6l-4 13 2-1 8-12h-6l4-13z"
-          fill="#000000"
-          transform="translate(3,3)"
-          opacity="0.1"
-        />
+        {/* Tech circuit background */}
+        <g opacity="0.15">
+          <rect x="0" y="0" width="200" height="200" fill="url(#techPattern)"/>
+        </g>
         
-        <path
-          d="M18 3l-2 1-8 12h6l-4 13 2-1 8-12h-6l4-13z"
-          fill="url(#boltShadow)"
-          transform="translate(2,2)"
-          opacity="0.3"
-        />
+        {/* Hexagon tech frame */}
+        <g transform="translate(100,100)" opacity="0.5">
+          <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+                fill="none"
+                stroke="url(#metalGoldPro)"
+                strokeWidth="2"/>
+        </g>
         
-        {/* Main Bolt Shape with 4D gradient and subtle rotation */}
+        {/* Main professional bolt */}
+        <g filter="url(#proShadow)">
+          {/* Smooth, modern bolt shape */}
+          <path d="M 95 50 
+                   Q 94 52, 92 55
+                   L 75 85
+                   Q 74 86, 75 87
+                   L 95 87
+                   Q 96 87, 95.5 88
+                   L 80 140
+                   Q 79 143, 82 141
+                   L 105 95
+                   Q 106 93, 105 92
+                   L 85 92
+                   Q 84 92, 84.5 91
+                   L 104 51
+                   Q 105 49, 103 49
+                   L 96 49
+                   Q 95 49, 95 50 Z"
+                fill="url(#chromeShine)"
+                stroke="url(#metalGoldPro)"
+                strokeWidth="1"
+                strokeLinejoin="round"/>
+          
+          {/* Inner highlight */}
+          <path d="M 96 53
+                   L 85 75
+                   L 93 75
+                   L 85 110
+                   L 95 85
+                   L 87 85
+                   L 97 53 Z"
+                fill="url(#centerGlow)"
+                opacity="0.7"/>
+          
+          {/* Edge shine */}
+          <path d="M 95 50 Q 94 52, 92 55 L 80 70"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="0.8"
+                opacity="0.6"
+                strokeLinecap="round"/>
+        </g>
+        
+        {/* Node points with pulse */}
         <g>
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 16 16"
-            to="1 16 16"
-            dur="10s"
-            repeatCount="indefinite"/>
-          <path
-            d="M18 3l-2 1-8 12h6l-4 13 2-1 8-12h-6l4-13z"
-            fill="url(#boltGradient)"
-            filter="url(#glow)"
-            stroke="#FFD700"
-            strokeWidth="0.5"
-          />
-        </g>
-        
-        {/* Animated Highlight for 3D effect */}
-        <path
-          d="M16 3l1 0.5-6 9h4l-3 10 1-0.5 6-9h-4l1-10z"
-          fill="#FFFFFF"
-          opacity="0.4"
-        >
-          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="2s" repeatCount="indefinite"/>
-        </path>
-        
-        {/* Inner energy core with pulsing effect */}
-        <path
-          d="M15 6l-1 0.2-4 6h2l-2 8 1-0.2 4-6h-2l2-8z"
-          fill="#FFFF00"
-          opacity="0.8"
-        >
-          <animate attributeName="opacity" values="0.8;1;0.8" dur="1.5s" repeatCount="indefinite"/>
-        </path>
-        
-        {/* Energy Sparks for 4D Effect */}
-        <g opacity="0.7">
-          <circle cx="12" cy="8" r="0.5" fill="#FFD700">
-            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+          <circle cx="95" cy="50" r="3" fill="#FFD700">
+            <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="20" cy="12" r="0.5" fill="#FFA500">
-            <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          <circle cx="85" cy="87" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="14" cy="20" r="0.5" fill="#FFD700">
-            <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+          <circle cx="105" cy="92" r="2.5" fill="#FFA500">
+            <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="82" cy="140" r="3" fill="#FFD700">
+            <animate attributeName="r" values="3;4;3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
           </circle>
         </g>
         
-        {/* Subtle motion blur lines for speed effect */}
-        <g opacity="0.3">
-          <line x1="10" y1="7" x2="8" y2="7" stroke="#FFD700" strokeWidth="0.5" filter="url(#blur4D)">
-            <animate attributeName="opacity" values="0;0.5;0" dur="1s" repeatCount="indefinite"/>
-          </line>
-          <line x1="22" y1="14" x2="24" y2="14" stroke="#FFA500" strokeWidth="0.5" filter="url(#blur4D)">
-            <animate attributeName="opacity" values="0;0.5;0" dur="1s" begin="0.3s" repeatCount="indefinite"/>
-          </line>
-          <line x1="12" y1="22" x2="10" y2="22" stroke="#FFD700" strokeWidth="0.5" filter="url(#blur4D)">
-            <animate attributeName="opacity" values="0;0.5;0" dur="1s" begin="0.6s" repeatCount="indefinite"/>
-          </line>
+        {/* Energy flow paths */}
+        <g opacity="0.6">
+          <path d="M95,50 L85,87" stroke="#FFD700" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" repeatCount="indefinite"/>
+          </path>
+          <path d="M85,87 L105,92" stroke="#FFA500" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;30,70;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+          </path>
+          <path d="M105,92 L82,140" stroke="#FFD700" strokeWidth="0.5" fill="none">
+            <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+          </path>
         </g>
       </svg>
     </div>
@@ -142,14 +163,14 @@ export const BoltLogo: React.FC<BoltLogoProps> = ({ size = 32, className = "" })
 
 export const BoltTextLogo: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
-      <BoltLogo size={32} />
+    <div className={`flex items-center gap-3 ${className}`}>
+      <BoltLogo size={40} />
       <div className="flex flex-col">
-        <span className="font-black text-xl bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent tracking-tight">
+        <span className="text-2xl font-black bg-gradient-to-r from-yellow-200 via-yellow-400 to-orange-500 bg-clip-text text-transparent tracking-tight">
           BOLT
         </span>
-        <span className="text-[10px] font-bold text-orange-400/80 -mt-1 tracking-[0.2em] uppercase">
-          Crypto Flasher
+        <span className="text-xs font-semibold text-gray-400 tracking-[0.3em] uppercase -mt-1">
+          FLASHER
         </span>
       </div>
     </div>

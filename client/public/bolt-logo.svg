@@ -1,104 +1,188 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
   <defs>
-    <!-- Gradient for 3D depth effect -->
-    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-      <stop offset="30%" style="stop-color:#FFED4E;stop-opacity:1" />
-      <stop offset="60%" style="stop-color:#FFA500;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    <!-- Metallic gradient for professional look -->
+    <linearGradient id="metalGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF4E6;stop-opacity:1" />
+      <stop offset="20%" style="stop-color:#FFEB3B;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#FFC107;stop-opacity:1" />
+      <stop offset="80%" style="stop-color:#FF9800;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F57C00;stop-opacity:1" />
     </linearGradient>
     
-    <!-- Shadow gradient -->
-    <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.3" />
-      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.1" />
+    <!-- Chrome effect gradient -->
+    <linearGradient id="chromeEffect" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="30%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FF8C00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
     </linearGradient>
     
-    <!-- Glow effect -->
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <!-- Inner glow -->
+    <radialGradient id="innerGlow" cx="50%" cy="40%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
     
-    <!-- 3D perspective shadow -->
-    <filter id="dropshadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-      <feOffset dx="3" dy="3" result="offsetblur"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.5"/>
-      </feComponentTransfer>
+    <!-- Professional shadow -->
+    <filter id="professionalShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.3"/>
+      <feComposite in2="offsetblur" operator="in"/>
       <feMerge>
         <feMergeNode/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    
+    <!-- Realistic metallic texture -->
+    <filter id="metallicTexture">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" result="turbulence" seed="2"/>
+      <feColorMatrix in="turbulence" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="discrete" tableValues="0 0.05 0.1 0.05 0"/>
+      </feComponentTransfer>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+    
+    <!-- Circuit pattern mask -->
+    <pattern id="circuitPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="transparent"/>
+      <circle cx="5" cy="5" r="1.5" fill="#FFD700" opacity="0.3"/>
+      <circle cx="35" cy="35" r="1.5" fill="#FFD700" opacity="0.3"/>
+      <path d="M5,5 L35,5" stroke="#FFD700" stroke-width="0.5" opacity="0.2"/>
+      <path d="M35,5 L35,35" stroke="#FFD700" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
   </defs>
   
-  <!-- Background circle with gradient -->
-  <circle cx="100" cy="100" r="90" fill="url(#shadowGradient)" opacity="0.2"/>
+  <!-- Background circle with subtle gradient -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a1a" opacity="0.05"/>
+  <circle cx="100" cy="100" r="90" fill="#2a2a2a" opacity="0.03"/>
   
-  <!-- 3D layers for depth effect -->
-  <!-- Back layer (shadow) -->
-  <g transform="translate(5, 5)">
-    <path d="M 90 40 L 70 80 L 95 80 L 75 140 L 85 135 L 110 80 L 85 80 L 105 40 Z" 
-          fill="#000000" 
-          opacity="0.2"/>
+  <!-- Circuit board background elements -->
+  <g opacity="0.15">
+    <rect x="0" y="0" width="200" height="200" fill="url(#circuitPattern)"/>
   </g>
   
-  <!-- Middle layer (depth) -->
-  <g transform="translate(3, 3)">
-    <path d="M 90 40 L 70 80 L 95 80 L 75 140 L 85 135 L 110 80 L 85 80 L 105 40 Z" 
-          fill="#FF8C00" 
-          opacity="0.4"/>
+  <!-- Main hexagon container for modern tech look -->
+  <g transform="translate(100,100)">
+    <!-- Hexagon shadow -->
+    <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+          fill="#000000"
+          opacity="0.2"
+          transform="translate(2,4)"/>
+    
+    <!-- Hexagon border -->
+    <path d="M -50,-29 L -50,29 L 0,58 L 50,29 L 50,-29 L 0,-58 Z"
+          fill="none"
+          stroke="url(#metalGold)"
+          stroke-width="2"
+          opacity="0.8"/>
   </g>
   
-  <!-- Main bolt shape with gradient -->
-  <path d="M 90 40 L 70 80 L 95 80 L 75 140 L 85 135 L 110 80 L 85 80 L 105 40 Z" 
-        fill="url(#goldGradient)" 
-        filter="url(#glow)"
-        stroke="#FFD700" 
-        stroke-width="1" 
-        stroke-linejoin="round"/>
+  <!-- Professional lightning bolt design -->
+  <g filter="url(#professionalShadow)">
+    <!-- Base bolt shape with rounded edges for modern look -->
+    <path d="M 95 50 
+             Q 94 52, 92 55
+             L 75 85
+             Q 74 86, 75 87
+             L 95 87
+             Q 96 87, 95.5 88
+             L 80 140
+             Q 79 143, 82 141
+             L 105 95
+             Q 106 93, 105 92
+             L 85 92
+             Q 84 92, 84.5 91
+             L 104 51
+             Q 105 49, 103 49
+             L 96 49
+             Q 95 49, 95 50 Z"
+          fill="url(#chromeEffect)"
+          stroke="url(#metalGold)"
+          stroke-width="1"
+          stroke-linejoin="round"/>
+    
+    <!-- Inner highlight for 3D effect -->
+    <path d="M 96 53
+             L 85 75
+             L 93 75
+             L 85 110
+             L 95 85
+             L 87 85
+             L 97 53 Z"
+          fill="url(#innerGlow)"
+          opacity="0.7"/>
+    
+    <!-- Metallic edge highlight -->
+    <path d="M 95 50 
+             Q 94 52, 92 55
+             L 80 70"
+          fill="none"
+          stroke="#FFFFFF"
+          stroke-width="0.8"
+          opacity="0.6"
+          stroke-linecap="round"/>
+  </g>
   
-  <!-- Highlight for 3D effect -->
-  <path d="M 90 40 L 88 45 L 78 65 L 92 65 L 90 70 L 95 65 L 85 45 Z" 
-        fill="#FFFFFF" 
-        opacity="0.5"/>
+  <!-- Tech dots representing data flow -->
+  <g>
+    <circle cx="95" cy="50" r="3" fill="#FFD700">
+      <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="85" cy="87" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="105" cy="92" r="2.5" fill="#FFA500">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="82" cy="140" r="3" fill="#FFD700">
+      <animate attributeName="r" values="3;4;3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
   
-  <!-- Additional glow lines for 4D effect -->
+  <!-- Energy flow lines -->
   <g opacity="0.6">
-    <line x1="60" y1="50" x2="65" y2="55" stroke="#FFD700" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
-    <line x1="120" y1="70" x2="125" y2="75" stroke="#FFD700" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
-    <line x1="65" y1="130" x2="60" y2="135" stroke="#FFD700" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
-    <line x1="115" y1="90" x2="120" y2="85" stroke="#FFD700" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M95,50 L85,87" stroke="#FFD700" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;0,100" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M85,87 L105,92" stroke="#FFA500" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;30,70;0,100" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M105,92 L82,140" stroke="#FFD700" stroke-width="0.5" fill="none">
+      <animate attributeName="stroke-dasharray" values="0,100;60,40;0,100" dur="3s" begin="2s" repeatCount="indefinite"/>
+    </path>
   </g>
   
-  <!-- Animated pulse effect for 4D dimension -->
-  <circle cx="100" cy="100" r="85" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0">
-    <animate attributeName="r" 
-             values="85;95;85" 
-             dur="2s" 
-             repeatCount="indefinite"/>
-    <animate attributeName="opacity" 
-             values="0;0.6;0" 
-             dur="2s" 
-             repeatCount="indefinite"/>
-  </circle>
+  <!-- Professional text badge -->
+  <g transform="translate(100, 170)">
+    <rect x="-40" y="-10" width="80" height="20" rx="10" fill="#1a1a1a" opacity="0.8"/>
+    <text x="0" y="4" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600" fill="url(#metalGold)">
+      FLASHER
+    </text>
+  </g>
   
-  <!-- Second pulse -->
-  <circle cx="100" cy="100" r="85" fill="none" stroke="#FFA500" stroke-width="0.5" opacity="0">
-    <animate attributeName="r" 
-             values="85;95;85" 
-             dur="2s" 
-             begin="1s"
-             repeatCount="indefinite"/>
-    <animate attributeName="opacity" 
-             values="0;0.4;0" 
-             dur="2s" 
-             begin="1s"
-             repeatCount="indefinite"/>
-  </circle>
+  <!-- Subtle particle effects -->
+  <g opacity="0.4">
+    <circle cx="70" cy="60" r="0.5" fill="#FFD700">
+      <animate attributeName="cy" values="60;55;60" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.8;0" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="100" r="0.5" fill="#FFA500">
+      <animate attributeName="cx" values="130;135;130" dur="4s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="90" cy="130" r="0.5" fill="#FFD700">
+      <animate attributeName="cy" values="130;135;130" dur="4s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
 </svg>
