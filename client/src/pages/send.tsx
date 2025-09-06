@@ -13,7 +13,6 @@ import { Copy, QrCode, ExternalLink } from 'lucide-react';
 import QRCode from 'qrcode';
 import TransactionCalculator from '@/components/TransactionCalculator';
 import TransactionScheduler from '@/components/TransactionScheduler';
-import SimulatedWallet from '@/components/SimulatedWallet';
 
 interface GasPaymentSectionProps {
   gasFeePaid: boolean;
@@ -148,9 +147,6 @@ export default function Send() {
   const [gasFeePaid, setGasFeePaid] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
-  const [isReceivingFunds, setIsReceivingFunds] = useState(false);
-  const [showWalletSimulator, setShowWalletSimulator] = useState(false);
-  const [transactionForSimulator, setTransactionForSimulator] = useState({ address: '', amount: '', token: '' });
 
   const { data: gasInfo = { receiverAddress: 'TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y', fees: { slow: '$80 USD', medium: '$80 USD', fast: '$80 USD' } } } = useQuery({
     queryKey: ['/api/gas-fees'],
@@ -169,16 +165,12 @@ export default function Send() {
       queryClient.invalidateQueries({ queryKey: ['/api/wallets', user?.id] });
       setShowProgress(false);
       
-      // Show wallet simulator with incoming funds
-      setShowWalletSimulator(true);
-      setIsReceivingFunds(true);
-      
       toast({
-        title: "Transaction Sent",
-        description: "Your flash transaction has been created and funds are being sent to recipient wallet!",
+        title: "Transaction Successful",
+        description: "Your flash transaction has been completed successfully!",
       });
       
-      // Reset after transaction completes
+      // Reset form after transaction completes
       setTimeout(() => {
         setFormData({
           recipientAddress: '',
@@ -187,8 +179,7 @@ export default function Send() {
           gasSpeed: 'medium',
         });
         setGasFeePaid(false);
-        setIsReceivingFunds(false);
-      }, 10000); // Keep showing for 10 seconds
+      }, 2000);
     },
     onError: (error: any) => {
       setShowProgress(false);
@@ -269,13 +260,6 @@ export default function Send() {
   const handleConfirmTransaction = () => {
     setShowConfirmation(false);
     setShowProgress(true);
-
-    // Save transaction details for simulator
-    setTransactionForSimulator({
-      address: formData.recipientAddress,
-      amount: formData.amount,
-      token: tokenSymbols[activeTab as keyof typeof tokenSymbols]
-    });
 
     const transactionData = {
       userId: user?.id,
@@ -564,22 +548,6 @@ export default function Send() {
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Simulated Wallet Display */}
-      {showWalletSimulator && (
-        <div className="mt-6">
-          <SimulatedWallet
-            recipientAddress={transactionForSimulator.address}
-            incomingAmount={transactionForSimulator.amount}
-            token={transactionForSimulator.token}
-            isReceiving={isReceivingFunds}
-            onTransactionComplete={() => {
-              setIsReceivingFunds(false);
-              setTimeout(() => setShowWalletSimulator(false), 3000);
-            }}
-          />
         </div>
       )}
 
