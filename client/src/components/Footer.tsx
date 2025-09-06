@@ -37,27 +37,21 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/terms">
-                  <a className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
-                    <FileText className="w-4 h-4" />
-                    Terms of Service
-                  </a>
+                <Link href="/terms" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/privacy">
-                  <a className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
-                    <Lock className="w-4 h-4" />
-                    Privacy Policy
-                  </a>
+                <Link href="/privacy" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/refund">
-                  <a className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
-                    <RefreshCw className="w-4 h-4" />
-                    Refund Policy
-                  </a>
+                <Link href="/refund" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
+                  <RefreshCw className="w-4 h-4" />
+                  Refund Policy
                 </Link>
               </li>
             </ul>
@@ -68,11 +62,9 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/faq">
-                  <a className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4" />
-                    FAQ
-                  </a>
+                <Link href="/faq" className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  FAQ
                 </Link>
               </li>
               <li>
