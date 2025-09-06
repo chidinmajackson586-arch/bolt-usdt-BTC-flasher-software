@@ -146,7 +146,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         token,
         network,
         gasSpeed,
-        gasFee,
+        gasFee: gasFee ? gasFee.toString().replace(/[^0-9.]/g, '') : '80', // Extract numeric value only
         gasFeePaid,
         status: 'completed' as const
       };
@@ -180,9 +180,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({
       receiverAddress: gasReceiverAddress,
       fees: {
-        slow: "$80 USD",
-        medium: "$80 USD", 
-        fast: "$80 USD"
+        slow: "80",
+        medium: "110", 
+        fast: "160"
       }
     });
   });

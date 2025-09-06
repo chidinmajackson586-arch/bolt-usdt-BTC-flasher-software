@@ -148,12 +148,17 @@ export default function Send() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
 
-  const { data: gasInfo = { receiverAddress: 'TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y', fees: { slow: '$80 USD', medium: '$80 USD', fast: '$80 USD' } } } = useQuery({
+  const { data: gasInfo = { receiverAddress: 'TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y', fees: { slow: '80', medium: '110', fast: '160' } } } = useQuery({
     queryKey: ['/api/gas-fees'],
   });
 
   const gasReceiver = (gasInfo as any)?.receiverAddress || 'TQm8yS3XZHgXiHMtMWbrQwwmLCztyvAG8y';
-  const gasFeesData = (gasInfo as any)?.fees || { slow: '$80 USD', medium: '$80 USD', fast: '$80 USD' };
+  const gasFeesData = (gasInfo as any)?.fees || { slow: '80', medium: '110', fast: '160' };
+  const gasFeesDisplay = {
+    slow: `$${gasFeesData.slow} USD`,
+    medium: `$${gasFeesData.medium} USD`,
+    fast: `$${gasFeesData.fast} USD`
+  };
 
   const sendTransactionMutation = useMutation({
     mutationFn: async (transactionData: any) => {
@@ -268,7 +273,7 @@ export default function Send() {
       token: tokenSymbols[activeTab as keyof typeof tokenSymbols],
       network: activeTab.toUpperCase(),
       gasSpeed: formData.gasSpeed,
-      gasFee: gasFeesData[formData.gasSpeed as keyof typeof gasFeesData],
+      gasFee: gasFeesData[formData.gasSpeed as keyof typeof gasFeesData], // Send numeric value only
       gasFeePaid: gasFeePaid,
       status: 'pending',
     };
@@ -340,7 +345,7 @@ export default function Send() {
                               Minimum flash amount: <strong className="text-yellow-500">550</strong>
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              Gas fee required: <strong className="text-yellow-500">$80 USD</strong> for Ethereum
+                              Gas fees: <strong className="text-yellow-500">$80-$160 USD</strong> based on speed
                             </p>
                           </div>
                         </div>
@@ -394,8 +399,8 @@ export default function Send() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="slow">Slow ($80 USD)</SelectItem>
-                          <SelectItem value="medium">Medium ($80 USD)</SelectItem>
-                          <SelectItem value="fast">Fast ($80 USD)</SelectItem>
+                          <SelectItem value="medium">Medium ($110 USD)</SelectItem>
+                          <SelectItem value="fast">Fast ($160 USD)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -466,7 +471,7 @@ export default function Send() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Gas Fee:</span>
-                <span className="text-yellow-500 font-semibold">{gasFeesData[formData.gasSpeed as keyof typeof gasFeesData]}</span>
+                <span className="text-yellow-500 font-semibold">{gasFeesDisplay[formData.gasSpeed as keyof typeof gasFeesDisplay]}</span>
               </div>
               <div className="flex justify-between pt-2 border-t border-gray-700">
                 <span className="text-gray-400">Status:</span>
