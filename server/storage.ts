@@ -195,6 +195,45 @@ export class DatabaseStorage implements IStorage {
             address: "TQn9Y2khEsLJW1ChVWFMSMeRDow5oNDMnt",
             network: "TRX",
             balance: "5000000.00",
+          },
+          {
+            userId: adminUser[0].id,
+            name: "BNB Wallet",
+            address: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+            network: "BSC",
+            balance: "25.89",
+          }
+        ]);
+
+        // Create default wallets for SoftwareHenry
+        await db.insert(wallets).values([
+          {
+            userId: henryUser[0].id,
+            name: "Bitcoin Wallet",
+            address: "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
+            network: "BTC",
+            balance: "2.567",
+          },
+          {
+            userId: henryUser[0].id,
+            name: "Ethereum Wallet",
+            address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+            network: "ETH",
+            balance: "28.45",
+          },
+          {
+            userId: henryUser[0].id,
+            name: "USDT Wallet",
+            address: "TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs",
+            network: "TRX",
+            balance: "8500000.00",
+          },
+          {
+            userId: henryUser[0].id,
+            name: "BNB Wallet",
+            address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+            network: "BSC",
+            balance: "45.67",
           }
         ]);
       }
