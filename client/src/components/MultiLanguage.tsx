@@ -183,14 +183,15 @@ export function LanguageSelector() {
   const { currentLanguage, setLanguage } = useLanguage();
 
   return (
-    <div className="flex items-center gap-2">
-      <Globe className="w-4 h-4 text-gray-400" />
+    <div className="flex items-center gap-1 sm:gap-2">
+      <Globe className="w-4 h-4 text-gray-400 hidden sm:block" />
       <Select value={currentLanguage.code} onValueChange={setLanguage}>
-        <SelectTrigger className="w-40 bg-gray-800 border-gray-600 text-white">
+        <SelectTrigger className="w-24 sm:w-40 bg-gray-800 border-gray-600 text-white min-h-[40px]">
           <SelectValue>
-            <span className="flex items-center gap-2">
-              <span>{currentLanguage.flag}</span>
-              <span>{currentLanguage.name}</span>
+            <span className="flex items-center gap-1 sm:gap-2">
+              <span className="text-base sm:text-sm">{currentLanguage.flag}</span>
+              <span className="hidden sm:inline">{currentLanguage.name}</span>
+              <span className="sm:hidden text-xs">{currentLanguage.code.toUpperCase()}</span>
             </span>
           </SelectValue>
         </SelectTrigger>

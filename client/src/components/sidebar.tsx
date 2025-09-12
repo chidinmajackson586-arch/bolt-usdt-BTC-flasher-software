@@ -3,12 +3,13 @@ import { useLocation, Link } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
 import { useState } from 'react';
 import { BoltTextLogo, BoltLogo } from './bolt-logo';
+import { useLanguage } from './MultiLanguage';
 
-const navItems = [
-  { path: '/home', icon: ChartLine, label: 'Dashboard' },
-  { path: '/send', icon: NotebookPen, label: 'Send Crypto' },
-  { path: '/history', icon: History, label: 'Transaction History' },
-  { path: '/settings', icon: Settings, label: 'Settings' },
+const createNavItems = (t: (key: string) => string) => [
+  { path: '/home', icon: ChartLine, label: t('dashboard') },
+  { path: '/send', icon: NotebookPen, label: t('send') },
+  { path: '/history', icon: History, label: t('transactions') },
+  { path: '/settings', icon: Settings, label: t('settings') },
 ];
 
 const adminNavItems = [
@@ -19,7 +20,9 @@ export default function Sidebar() {
   const [location] = useLocation();
   const { logout, user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
   
+  const navItems = createNavItems(t);
   const isAdmin = user && (user.username === 'admin' || user.username === 'SoftwareHenry' || user.role === 'admin');
   const allNavItems = isAdmin ? [...navItems, ...adminNavItems] : navItems;
 
@@ -49,7 +52,7 @@ export default function Sidebar() {
           {/* Quick user info on the right */}
           <div className="flex items-center gap-2">
             <div className="text-right hidden sm:block">
-              <p className="text-sm text-muted-foreground">Welcome</p>
+              <p className="text-sm text-muted-foreground">{t('welcome')}</p>
               <p className="text-sm font-semibold text-yellow-500">{user?.username}</p>
             </div>
           </div>
@@ -110,7 +113,7 @@ export default function Sidebar() {
             className="w-full flex items-center justify-center space-x-2 text-red-400 hover:bg-red-900 hover:bg-opacity-20 p-3 rounded-lg transition-all"
           >
             <LogOut className="w-4 h-4" />
-            <span>Logout</span>
+            <span>{t('logout')}</span>
           </button>
         </div>
       </div>
