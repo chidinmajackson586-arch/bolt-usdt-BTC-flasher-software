@@ -18,6 +18,7 @@ import Header from "./components/header";
 import NotFound from "./pages/not-found";
 import Pricing from '@/pages/pricing';
 import TelegramSupport from './components/TelegramSupport';
+import { LanguageProvider } from './components/MultiLanguage';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Terms from './pages/terms';
 import Privacy from './pages/privacy';
@@ -151,16 +152,18 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <GoogleAnalytics />
-          <Toaster />
-          <AgeVerification />
-          <CookieConsent />
-          <ExitIntentPopup />
-          <AppContent />
-        </TooltipProvider>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <GoogleAnalytics />
+            <Toaster />
+            <AgeVerification />
+            <CookieConsent />
+            <ExitIntentPopup />
+            <AppContent />
+          </TooltipProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }
