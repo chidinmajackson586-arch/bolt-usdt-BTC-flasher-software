@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import { Globe } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -153,6 +153,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const lang = languages.find(l => l.code === saved) || languages[0];
     return lang;
   });
+
+  // Set initial direction and language on mount and when language changes
+  useEffect(() => {
+    document.documentElement.dir = currentLanguage.direction;
+    document.documentElement.lang = currentLanguage.code;
+  }, [currentLanguage]);
 
   const setLanguage = (code: string) => {
     const lang = languages.find(l => l.code === code);
