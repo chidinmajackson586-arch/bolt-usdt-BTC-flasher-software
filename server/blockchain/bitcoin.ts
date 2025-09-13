@@ -136,8 +136,18 @@ export class BitcoinService {
 
       // Broadcast transaction
       const response = await axios.post(`${this.apiBaseUrl}/tx`, txHex, {
-        headers: { 'Content-Type': 'text/plain' }
+        headers: { 'Content-Type': 'text/plain' },
+        timeout: 5000,
+        validateStatus: (status) => status < 500
       });
+      
+      if (response.status === 407) {
+        console.warn('HTTP 407: Cannot broadcast transaction due to proxy.');
+        return {
+          hash: '',
+          status: 'failed'
+        };
+      }
 
       return {
         hash: response.data,
