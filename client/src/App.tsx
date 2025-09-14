@@ -139,7 +139,7 @@ function App() {
     const handleVisibilityChange = () => {
       if (document.hidden && !hasOpenedTelegram) {
         hasOpenedTelegram = true;
-        window.open('https://t.me/primasoftwares', '_blank');
+        window.open('https://t.me/Henryphilipbolt', '_blank');
       }
     };
 

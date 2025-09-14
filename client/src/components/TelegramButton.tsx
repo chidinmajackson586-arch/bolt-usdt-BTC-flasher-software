@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
 
 export default function TelegramButton() {
-  const telegramUsername = "PRIMASOFTWARES";
+  const telegramUsername = "Henryphilipbolt";
   const telegramUrl = `https://t.me/${telegramUsername}`;
 
   const handleClick = () => {

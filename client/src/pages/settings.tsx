@@ -138,11 +138,11 @@ export default function Settings() {
               <div className="space-y-2 text-sm text-gray-400">
                 <p><strong>Version:</strong> 2.5.0</p>
                 <p><strong>Build:</strong> 20250108-001</p>
-                <p><strong>Developer:</strong> PRIMASOFTWARES</p>
-                <p><strong>Contact:</strong> primasoftwares@boltflasher.live</p>
+                <p><strong>Developer:</strong> Henryphilipbolt</p>
+                <p><strong>Contact:</strong> henryphilipbolt@boltflasher.live</p>
                 <div className="pt-2">
                   <button
-                    onClick={() => window.open('https://t.me/PRIMASOFTWARES', '_blank')}
+                    onClick={() => window.open('https://t.me/Henryphilipbolt', '_blank')}
                     className="text-purple-400 hover:text-purple-300"
                   >
                     <i className="fab fa-telegram mr-2"></i>Telegram Support
