@@ -13,6 +13,47 @@ const loginSchema = z.object({
 
 // Using gas payment schema from shared/schema.ts
 
+// Middleware to check if user has a rejected subscription
+const requireNotRejected = async (req: any, res: any, next: any) => {
+  try {
+    // Extract userId from various sources
+    const userId = req.params.userId || req.body.userId || req.query.userId;
+    
+    if (!userId) {
+      return next(); // No userId, let the route handle authentication
+    }
+
+    // Check if user is admin (bypass check)
+    const user = await storage.getUserById(userId);
+    if (user && (user.role === 'admin' || ['admin', 'SoftwareHenry'].includes(user.username))) {
+      return next();
+    }
+
+    // Check subscription status
+    const subscriptions = await storage.getUserSubscriptions(userId);
+    if (subscriptions && subscriptions.length > 0) {
+      // Get the most recent subscription
+      const latestSubscription = subscriptions.sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return dateB - dateA;
+      })[0];
+
+      if (latestSubscription.status === 'rejected') {
+        return res.status(403).json({
+          code: 'subscription_rejected',
+          message: 'Your subscription has been rejected. Please contact support at @Henryphilipbolt on Telegram.'
+        });
+      }
+    }
+
+    next();
+  } catch (error) {
+    console.error('Middleware error:', error);
+    next(); // On error, let the route continue
+  }
+};
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication
   app.post("/api/auth/login", async (req, res) => {
@@ -98,8 +139,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ message: "Logged out successfully" });
   });
 
-  // Wallets
-  app.get("/api/wallets/:userId", async (req, res) => {
+  // Wallets (protected routes)
+  app.get("/api/wallets/:userId", requireNotRejected, async (req, res) => {
     try {
       const wallets = await storage.getWalletsByUserId(req.params.userId);
       res.json(wallets);
@@ -109,7 +150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Reset wallet balances to initial values
-  app.post("/api/wallets/:userId/reset", async (req, res) => {
+  app.post("/api/wallets/:userId/reset", requireNotRejected, async (req, res) => {
     try {
       await storage.resetWalletBalances(req.params.userId);
       const wallets = await storage.getWalletsByUserId(req.params.userId);
@@ -119,8 +160,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Transactions
-  app.get("/api/transactions/:userId", async (req, res) => {
+  // Transactions (protected routes)
+  app.get("/api/transactions/:userId", requireNotRejected, async (req, res) => {
     try {
       const transactions = await storage.getTransactionsByUserId(req.params.userId);
       res.json(transactions);
@@ -129,7 +170,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/transactions", async (req, res) => {
+  app.post("/api/transactions", requireNotRejected, async (req, res) => {
     try {
       // Extract transaction data from request body
       const { userId, toAddress, amount, token, network, gasSpeed, gasFee, gasFeePaid } = req.body;
@@ -173,7 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/transactions/:id/gas-payment", async (req, res) => {
+  app.patch("/api/transactions/:id/gas-payment", requireNotRejected, async (req, res) => {
     try {
       const { confirmed } = gasSchema.parse(req.body);
       const transaction = await storage.updateTransaction(req.params.id, {
@@ -542,15 +583,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Check if user has any active subscriptions
+      // Get all user subscriptions and return the most recent one
       const userSubscriptions = await storage.getUserSubscriptions(userId);
-      const activeSubscription = userSubscriptions.find(sub => sub.status === 'active');
-
-      if (!activeSubscription) {
-        return res.status(404).json({ message: "No active subscription found" });
+      
+      if (!userSubscriptions || userSubscriptions.length === 0) {
+        return res.status(404).json({ message: "No subscription found" });
       }
 
-      res.json(activeSubscription);
+      // Sort by creation date (most recent first) and return the latest
+      const latestSubscription = userSubscriptions.sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return dateB - dateA;
+      })[0];
+
+      res.json(latestSubscription);
     } catch (error) {
       console.error('Get subscription error:', error);
       res.status(500).json({ message: "Failed to get subscription" });
