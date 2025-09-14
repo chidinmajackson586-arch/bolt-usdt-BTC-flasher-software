@@ -292,7 +292,7 @@ export default function Dashboard() {
         canonical="/dashboard"
         ogImage="/dashboard-preview.png"
       />
-      <div className="space-y-4 sm:space-y-6">
+      <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
         {/* Reset Balance Button for Admin Users */}
         {(user?.username === 'admin' || user?.username === 'SoftwareHenry') && (
           <div className="flex justify-end mb-4">
@@ -300,26 +300,27 @@ export default function Dashboard() {
               variant="outline"
               onClick={() => resetBalanceMutation.mutate()}
               disabled={resetBalanceMutation.isPending}
-              className="bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20"
+              className="bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20 text-xs sm:text-sm px-3 sm:px-4 py-2"
             >
-              <RefreshCw className={`w-4 h-4 mr-2 ${resetBalanceMutation.isPending ? 'animate-spin' : ''}`} />
-              Reset Wallet Balances
+              <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 ${resetBalanceMutation.isPending ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">Reset Wallet Balances</span>
+              <span className="sm:hidden">Reset</span>
             </Button>
           </div>
         )}
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 lg:mb-8">
         {statsCards.map((card, index) => (
           <Card key={index} className="glass-card border-0 crypto-glow">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="text-xl sm:text-2xl">{card.icon}</div>
-                <div className={`text-xs sm:text-sm ${card.positive ? 'text-green-500' : 'text-yellow-500'}`}>
+            <CardContent className="p-3 sm:p-4 lg:p-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="text-lg sm:text-xl lg:text-2xl">{card.icon}</div>
+                <div className={`text-[10px] sm:text-xs lg:text-sm ${card.positive ? 'text-green-500' : 'text-yellow-500'} hidden sm:block`}>
                   {card.change}
                 </div>
               </div>
-              <h3 className="text-sm sm:text-lg font-semibold mb-1 leading-tight">{card.title}</h3>
-              <p className={`text-lg sm:text-2xl font-bold ${
+              <h3 className="text-xs sm:text-sm lg:text-lg font-semibold mb-1 leading-tight truncate">{card.title}</h3>
+              <p className={`text-sm sm:text-lg lg:text-2xl font-bold truncate ${
                 card.title === 'Available Balance' ? 'text-green-500' : 
                 card.title === 'Total Transactions' ? 'text-accent' :
                 card.title === 'Flash Fees Paid' ? 'text-yellow-500' : 'text-white'
@@ -331,12 +332,12 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 px-2 sm:px-0">
         <div className="lg:col-span-2">
           <Card className="glass-card border-0">
-            <CardContent className="p-4 sm:p-6">
-              <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
-              <div className="space-y-3">
+            <CardContent className="p-3 sm:p-4 lg:p-6">
+              <h3 className="text-sm sm:text-base lg:text-lg font-semibold mb-3 sm:mb-4">Recent Transactions</h3>
+              <div className="space-y-2 sm:space-y-3">
                 {transactionsLoading ? (
                   <>
                     {[...Array(3)].map((_, i) => (
@@ -355,24 +356,24 @@ export default function Dashboard() {
                   </>
                 ) : (transactions as any[]).length > 0 ? (
                   (transactions as any[]).slice(0, 3).map((tx: any) => (
-                    <div key={tx.id} className="transaction-card flex items-center justify-between p-4 bg-secondary rounded-lg border border-gray-700">
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    <div key={tx.id} className="transaction-card flex items-center justify-between p-2 sm:p-3 lg:p-4 bg-secondary rounded-lg border border-gray-700">
+                      <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 min-w-0">
+                        <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                           tx.status === 'completed' ? 'bg-green-500 bg-opacity-20' : 'bg-yellow-500 bg-opacity-20'
                         }`}>
                           <i className={`fas fa-arrow-up ${
                             tx.status === 'completed' ? 'text-green-500' : 'text-yellow-500'
                           }`}></i>
                         </div>
-                        <div>
-                          <p className="font-medium">{tx.token} Transfer</p>
-                          <p className="text-sm text-muted-foreground">
-                            To: {tx.toAddress.substring(0, 10)}...
+                        <div className="min-w-0">
+                          <p className="font-medium text-xs sm:text-sm lg:text-base truncate">{tx.token} Transfer</p>
+                          <p className="text-[10px] sm:text-xs lg:text-sm text-muted-foreground truncate">
+                            To: {tx.toAddress.substring(0, 8)}...
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className={`font-semibold ${
+                      <div className="text-right flex-shrink-0">
+                        <p className={`font-semibold text-xs sm:text-sm lg:text-base ${
                           tx.status === 'completed' ? 'text-green-500' : 'text-yellow-500'
                         }`}>
                           {tx.amount} {tx.token}

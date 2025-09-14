@@ -69,7 +69,7 @@ function GasPaymentSection({ gasFeePaid, onConfirmPayment, receiverAddress }: Ga
   }
 
   return (
-    <div className="glass-card bg-yellow-500 bg-opacity-10 border border-yellow-500 border-opacity-30 rounded-lg p-4">
+    <div className="glass-card bg-yellow-500 bg-opacity-10 border border-yellow-500 border-opacity-30 rounded-lg p-3 sm:p-4">
       <div className="flex items-start space-x-3">
         <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-1">
           <span className="text-foreground text-xs font-bold">!</span>
@@ -78,10 +78,10 @@ function GasPaymentSection({ gasFeePaid, onConfirmPayment, receiverAddress }: Ga
           <h4 className="font-semibold text-yellow-500 mb-2">Flash Fee Payment Required</h4>
           <p className="text-sm text-muted-foreground mb-4">Send flash fee to the address below to complete your transaction:</p>
           
-          <div className="bg-secondary rounded-lg p-4 mb-4 border border-gray-700">
-            <div className="flex items-center justify-between mb-2">
+          <div className="bg-secondary rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 border border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
               <p className="text-xs text-muted-foreground">Flash Fee Receiver Address:</p>
-              <div className="flex space-x-2">
+              <div className="flex space-x-1 sm:space-x-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -102,7 +102,7 @@ function GasPaymentSection({ gasFeePaid, onConfirmPayment, receiverAddress }: Ga
                 </Button>
               </div>
             </div>
-            <p className="font-mono text-sm break-all bg-primary rounded p-2 mb-3">{receiverAddress}</p>
+            <p className="font-mono text-xs sm:text-sm break-all bg-primary rounded p-2 mb-3">{receiverAddress}</p>
             
             {showQrCode && qrCodeUrl && (
               <div className="flex justify-center mt-3 p-3 bg-white rounded-lg">
@@ -310,11 +310,11 @@ export default function Send() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-0">
       <Card className="glass-card border-0 mb-4 sm:mb-6">
-        <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <h3 className="text-lg sm:text-xl font-semibold">Send Cryptocurrency</h3>
+        <CardContent className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
+            <h3 className="text-base sm:text-lg lg:text-xl font-semibold">Send Cryptocurrency</h3>
             <div className="hidden sm:flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span className="text-sm text-muted-foreground">All networks online</span>
@@ -347,32 +347,32 @@ export default function Send() {
 
             {Object.keys(tokenSymbols).map((token) => (
               <TabsContent key={token} value={token}>
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 lg:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="recipientAddress">Recipient Address</Label>
+                      <Label htmlFor="recipientAddress" className="text-xs sm:text-sm">Recipient Address</Label>
                       <Input
                         id="recipientAddress"
                         value={formData.recipientAddress}
                         onChange={(e) => setFormData({ ...formData, recipientAddress: e.target.value })}
-                        className="bg-primary border-gray-600 focus:border-accent min-h-[48px] text-base"
+                        className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
                         placeholder="Enter wallet address"
                       />
                       <p className="text-xs text-muted-foreground">Enter a valid cryptocurrency wallet address</p>
                     </div>
                     
                     <div className="space-y-2">
-                      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 mb-4">
+                      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-2 sm:p-3 mb-3 sm:mb-4">
                         <div className="flex items-start space-x-2">
-                          <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
-                            <span className="text-foreground text-xs font-bold">!</span>
+                          <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <span className="text-foreground text-[10px] sm:text-xs font-bold">!</span>
                           </div>
-                          <div>
-                            <p className="text-yellow-500 font-semibold text-sm">Important Notice</p>
-                            <p className="text-xs text-muted-foreground mt-1">
+                          <div className="min-w-0">
+                            <p className="text-yellow-500 font-semibold text-xs sm:text-sm">Important Notice</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
                               Minimum flash amount: <strong className="text-yellow-500">550</strong>
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-[10px] sm:text-xs text-muted-foreground">
                               Gas fees: <strong className="text-yellow-500">$80-$160 USD</strong> based on speed
                             </p>
                           </div>
@@ -381,7 +381,7 @@ export default function Send() {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="amount">Amount</Label>
+                      <Label htmlFor="amount" className="text-xs sm:text-sm">Amount</Label>
                       <div className="relative">
                         <Input
                           id="amount"
@@ -389,7 +389,7 @@ export default function Send() {
                           step="0.000001"
                           value={formData.amount}
                           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                          className="bg-primary border-gray-600 focus:border-accent pr-16 min-h-[48px] text-base"
+                          className="bg-primary border-gray-600 focus:border-accent pr-12 sm:pr-16 min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
                           placeholder="0.00"
                         />
                         <div className="absolute right-3 top-3 text-muted-foreground">
