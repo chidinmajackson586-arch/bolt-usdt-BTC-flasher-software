@@ -402,11 +402,11 @@ export default function Send() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="network">Network</Label>
+                      <Label htmlFor="network" className="text-xs sm:text-sm">Network</Label>
                       <Select value={formData.network} onValueChange={(value) => setFormData({ ...formData, network: value })}>
-                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent">
+                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px]">
                           <SelectValue placeholder="Select network" />
                         </SelectTrigger>
                         <SelectContent>
@@ -420,9 +420,9 @@ export default function Send() {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="gasSpeed">Gas Fee Speed</Label>
+                      <Label htmlFor="gasSpeed" className="text-xs sm:text-sm">Gas Fee Speed</Label>
                       <Select value={formData.gasSpeed} onValueChange={(value) => setFormData({ ...formData, gasSpeed: value })}>
-                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent">
+                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -442,8 +442,8 @@ export default function Send() {
                     />
                   )}
 
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-700">
-                    <div className="text-sm text-muted-foreground">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-gray-700 gap-3">
+                    <div className="text-xs sm:text-sm text-muted-foreground">
                       <p>Transaction Fee: <span className="text-yellow-500 font-medium">
                         {gasFeesData[formData.gasSpeed as keyof typeof gasFeesData]}
                       </span></p>
@@ -452,7 +452,7 @@ export default function Send() {
                     
                     <Button
                       type="submit"
-                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-500"
+                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-500 w-full sm:w-auto min-h-[44px]"
                       disabled={sendTransactionMutation.isPending}
                     >
                       Send Transaction

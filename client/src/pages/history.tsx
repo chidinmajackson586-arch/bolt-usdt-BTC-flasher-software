@@ -114,7 +114,7 @@ export default function History() {
                     <p className={`font-bold ${getStatusColor(tx.status).split(' ')[1]}`}>
                       {tx.amount} {tx.token}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       {new Date(tx.createdAt).toLocaleDateString()}
                     </p>
                     <span className={`inline-block ${getStatusColor(tx.status)} bg-opacity-20 px-2 py-1 rounded text-xs capitalize`}>
