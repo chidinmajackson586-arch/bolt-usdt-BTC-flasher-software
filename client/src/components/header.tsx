@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BoltLogo } from './bolt-logo';
 import { Link, useLocation } from 'wouter';
 import { ThemeToggle } from './ThemeToggle';
-import { LanguageSelector, useLanguage } from './MultiLanguage';
+import { useLanguage } from './MultiLanguage';
 
 export default function Header() {
   const { user } = useAuth();
@@ -57,7 +57,6 @@ export default function Header() {
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <LanguageSelector />
           <ThemeToggle />
           <Link href="/home">
             <BoltLogo size={20} className="hidden sm:block cursor-pointer hover:opacity-80 transition-opacity" />

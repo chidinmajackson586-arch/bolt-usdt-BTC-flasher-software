@@ -16,7 +16,6 @@ import { AntiPhishingSetup } from '@/components/AntiPhishingCode';
 import { IPWhitelist } from '@/components/IPWhitelist';
 import LoginHistory from '@/components/LoginHistory';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSwitcher } from '@/components/MultiLanguage';
 import { Shield, Settings as SettingsIcon, Globe, History, Bell, Key } from 'lucide-react';
 
 export default function Settings() {
@@ -130,7 +129,6 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          <LanguageSwitcher />
 
           <Card className="bg-black/50 border-purple-500/20">
             <CardContent className="p-6">
