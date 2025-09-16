@@ -360,18 +360,18 @@ export default function Send() {
                     </div>
                     
                     <div className="space-y-2">
-                      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-2 sm:p-3 mb-3 sm:mb-4">
-                        <div className="flex items-start space-x-2">
-                          <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                            <span className="text-foreground text-[10px] sm:text-xs font-bold">!</span>
+                      <div className="bg-gradient-to-r from-yellow-500/20 via-yellow-500/10 to-yellow-500/20 border-2 border-yellow-500/50 rounded-xl p-4 sm:p-5 mb-3 sm:mb-4 backdrop-blur-sm shadow-lg">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0 shadow-md">
+                            <span className="text-black text-xs sm:text-sm font-bold">$</span>
                           </div>
                           <div className="min-w-0">
-                            <p className="text-yellow-500 font-semibold text-xs sm:text-sm">Important Notice</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
-                              Minimum flash amount: <strong className="text-yellow-500">550</strong>
+                            <h4 className="text-yellow-400 font-bold text-sm sm:text-base uppercase tracking-wide mb-2">Enterprise Transaction Fee</h4>
+                            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                              Each flash transaction requires a <strong className="text-yellow-400 text-base">$980 USD</strong> processing fee.
                             </p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground">
-                              The gas fee required to process a single transaction costs <strong className="text-yellow-500">$980</strong>
+                            <p className="text-[10px] sm:text-xs text-gray-400 mt-2">
+                              This fee ensures instant execution and network priority for enterprise-grade transactions.
                             </p>
                           </div>
                         </div>
