@@ -309,34 +309,34 @@ export default function Send() {
 
   return (
     <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-0">
-      <Card className="glass-card border-0 mb-4 sm:mb-6">
+      <Card className="enterprise-card border-0 mb-4 sm:mb-6 shadow-2xl">
         <CardContent className="p-3 sm:p-4 lg:p-6">
           <div className="flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
-            <h3 className="text-base sm:text-lg lg:text-xl font-semibold">Send Cryptocurrency</h3>
-            <div className="hidden sm:flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-muted-foreground">All networks online</span>
+            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gold-gradient">Enterprise Transaction Center</h3>
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-green-500/10 to-green-600/5 border border-green-500/20">
+              <div className="status-online"></div>
+              <span className="text-xs text-green-400 font-medium uppercase tracking-wider">All Networks Active</span>
             </div>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4 sm:mb-6">
-            <TabsList className="border-b border-gray-700 bg-transparent grid grid-cols-4 w-full">
-              <TabsTrigger value="btc" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+            <TabsList className="border-b border-yellow-500/20 bg-gradient-to-r from-gray-800/30 to-gray-900/30 rounded-lg p-1 grid grid-cols-4 w-full">
+              <TabsTrigger value="btc" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/20 data-[state=active]:to-yellow-600/10 data-[state=active]:border data-[state=active]:border-yellow-500/30 rounded-md transition-all duration-300 text-xs sm:text-sm">
                 <span className="hidden sm:inline mr-2">₿</span>
                 <span className="sm:hidden">BTC</span>
                 <span className="hidden sm:inline">Bitcoin</span>
               </TabsTrigger>
-              <TabsTrigger value="eth" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+              <TabsTrigger value="eth" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/20 data-[state=active]:to-yellow-600/10 data-[state=active]:border data-[state=active]:border-yellow-500/30 rounded-md transition-all duration-300 text-xs sm:text-sm">
                 <span className="hidden sm:inline mr-2">Ξ</span>
                 <span className="sm:hidden">ETH</span>
                 <span className="hidden sm:inline">Ethereum</span>
               </TabsTrigger>
-              <TabsTrigger value="usdt" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+              <TabsTrigger value="usdt" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/20 data-[state=active]:to-yellow-600/10 data-[state=active]:border data-[state=active]:border-yellow-500/30 rounded-md transition-all duration-300 text-xs sm:text-sm">
                 <span className="hidden sm:inline mr-2">₮</span>
                 <span className="sm:hidden">USDT</span>
                 <span className="hidden sm:inline">USDT</span>
               </TabsTrigger>
-              <TabsTrigger value="bnb" className="data-[state=active]:border-b-2 data-[state=active]:border-accent text-xs sm:text-sm">
+              <TabsTrigger value="bnb" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/20 data-[state=active]:to-yellow-600/10 data-[state=active]:border data-[state=active]:border-yellow-500/30 rounded-md transition-all duration-300 text-xs sm:text-sm">
                 <span className="hidden sm:inline mr-2">♦</span>
                 <span className="sm:hidden">BNB</span>
                 <span className="hidden sm:inline">BNB</span>
@@ -353,7 +353,7 @@ export default function Send() {
                         id="recipientAddress"
                         value={formData.recipientAddress}
                         onChange={(e) => setFormData({ ...formData, recipientAddress: e.target.value })}
-                        className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
+                        className="enterprise-input min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
                         placeholder="Enter wallet address"
                       />
                       <p className="text-xs text-muted-foreground">Enter a valid cryptocurrency wallet address</p>
@@ -387,7 +387,7 @@ export default function Send() {
                           step="0.000001"
                           value={formData.amount}
                           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                          className="bg-primary border-gray-600 focus:border-accent pr-12 sm:pr-16 min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
+                          className="enterprise-input pr-12 sm:pr-16 min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
                           placeholder="0.00"
                         />
                         <div className="absolute right-3 top-3 text-muted-foreground">
@@ -404,7 +404,7 @@ export default function Send() {
                     <div className="space-y-2">
                       <Label htmlFor="network" className="text-xs sm:text-sm">Network</Label>
                       <Select value={formData.network} onValueChange={(value) => setFormData({ ...formData, network: value })}>
-                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px]">
+                        <SelectTrigger className="enterprise-input min-h-[44px] sm:min-h-[48px]">
                           <SelectValue placeholder="Select network" />
                         </SelectTrigger>
                         <SelectContent>
@@ -420,7 +420,7 @@ export default function Send() {
                     <div className="space-y-2">
                       <Label htmlFor="gasSpeed" className="text-xs sm:text-sm">Gas Fee</Label>
                       <Select value={formData.gasSpeed} onValueChange={(value) => setFormData({ ...formData, gasSpeed: value })}>
-                        <SelectTrigger className="bg-primary border-gray-600 focus:border-accent min-h-[44px] sm:min-h-[48px]">
+                        <SelectTrigger className="enterprise-input min-h-[44px] sm:min-h-[48px]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -448,7 +448,7 @@ export default function Send() {
                     
                     <Button
                       type="submit"
-                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-500 w-full sm:w-auto min-h-[44px]"
+                      className="enterprise-button w-full sm:w-auto min-h-[44px]"
                       disabled={sendTransactionMutation.isPending}
                     >
                       Send Transaction
