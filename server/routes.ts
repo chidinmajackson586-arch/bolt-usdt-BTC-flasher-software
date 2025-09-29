@@ -155,11 +155,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Reset wallet balances to initial values
   app.post("/api/wallets/:userId/reset", requireNotRejected, async (req, res) => {
     try {
+      // Check if the user is an admin
+      const user = await storage.getUser(req.params.userId);
+      if (!user || (user.username !== 'admin' && user.username !== 'SoftwareHenry')) {
+        return res.status(403).json({ message: "Unauthorized: Only admin can reset wallet balances" });
+      }
+      
+      // Reset all user wallets
       await storage.resetWalletBalances(req.params.userId);
+      
+      // Return the admin's wallets
       const wallets = await storage.getWalletsByUserId(req.params.userId);
-      res.json({ message: "Wallet balances reset successfully", wallets });
+      res.json({ message: "All user wallet balances reset successfully", wallets });
     } catch (error) {
-      res.status(500).json({ message: "Failed to reset wallet balances" });
+      console.error('Reset wallet error:', error);
+      res.status(500).json({ message: error instanceof Error ? error.message : "Failed to reset wallet balances" });
     }
   });
 

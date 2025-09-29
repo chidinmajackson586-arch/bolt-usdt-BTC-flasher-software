@@ -317,39 +317,64 @@ export class DatabaseStorage implements IStorage {
   }
   
   async resetWalletBalances(userId: string): Promise<void> {
-    // Reset wallet balances to initial values
+    // Check if user is admin
     const user = await this.getUser(userId);
-    if (user?.username === 'admin') {
-      const initialBalances = {
-        BTC: '3000000.00',
-        ETH: '7000000.00',
-        TRX: '8000000.00',  // USDT on TRX network
-        BSC: '4500000.00'   // BNB on BSC network
+    if (!user || (user.username !== 'admin' && user.username !== 'SoftwareHenry')) {
+      throw new Error('Unauthorized: Only admin can reset wallet balances');
+    }
+
+    // Reset wallet balances for ALL users
+    const allUsers = await this.getAllUsers();
+    
+    for (const targetUser of allUsers) {
+      // Set different initial balances for admin users vs regular users
+      let initialBalances = {
+        BTC: '100000.00',  // Regular users get 100k
+        ETH: '200000.00',  
+        TRX: '150000.00',  // USDT on TRX network
+        BSC: '80000.00'    // BNB on BSC network
       };
       
-      for (const [network, balance] of Object.entries(initialBalances)) {
-        await db.update(wallets)
-          .set({ balance })
-          .where(and(
-            eq(wallets.userId, userId),
-            eq(wallets.network, network)
-          ));
+      // Admin accounts get higher balances
+      if (targetUser.username === 'admin') {
+        initialBalances = {
+          BTC: '3000000.00',
+          ETH: '7000000.00',
+          TRX: '8000000.00',
+          BSC: '4500000.00'
+        };
+      } else if (targetUser.username === 'SoftwareHenry') {
+        initialBalances = {
+          BTC: '3500000.00',
+          ETH: '7500000.00',
+          TRX: '8500000.00',
+          BSC: '5000000.00'
+        };
       }
-    } else if (user?.username === 'SoftwareHenry') {
-      const initialBalances = {
-        BTC: '3500000.00',
-        ETH: '7500000.00',
-        TRX: '8500000.00',  // USDT on TRX network
-        BSC: '5000000.00'   // BNB on BSC network
-      };
       
-      for (const [network, balance] of Object.entries(initialBalances)) {
-        await db.update(wallets)
-          .set({ balance })
-          .where(and(
-            eq(wallets.userId, userId),
-            eq(wallets.network, network)
-          ));
+      // Check if wallets exist for this user, create them if not
+      const userWallets = await db.select().from(wallets).where(eq(wallets.userId, targetUser.id));
+      
+      if (userWallets.length === 0) {
+        // Create wallets for this user
+        for (const [network, balance] of Object.entries(initialBalances)) {
+          await db.insert(wallets).values({
+            userId: targetUser.id,
+            address: `0x${randomUUID().replace(/-/g, '').substring(0, 40)}`,
+            network: network,
+            balance: balance,
+          });
+        }
+      } else {
+        // Update existing wallets
+        for (const [network, balance] of Object.entries(initialBalances)) {
+          await db.update(wallets)
+            .set({ balance })
+            .where(and(
+              eq(wallets.userId, targetUser.id),
+              eq(wallets.network, network)
+            ));
+        }
       }
     }
   }

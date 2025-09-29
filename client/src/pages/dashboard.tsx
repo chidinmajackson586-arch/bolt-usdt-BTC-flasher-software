@@ -206,8 +206,8 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       toast({
-        title: "Balance Reset",
-        description: "Your wallet balances have been reset to initial values.",
+        title: "All Balances Reset",
+        description: "All user wallet balances have been reset to initial values.",
       });
       refetchWallets();
       queryClient.invalidateQueries({ queryKey: ['/api/wallets'] });
@@ -303,8 +303,8 @@ export default function Dashboard() {
               className="bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20 text-xs sm:text-sm px-3 sm:px-4 py-2"
             >
               <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 ${resetBalanceMutation.isPending ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Reset Wallet Balances</span>
-              <span className="sm:hidden">Reset</span>
+              <span className="hidden sm:inline">Reset All User Balances</span>
+              <span className="sm:hidden">Reset All</span>
             </Button>
           </div>
         )}
