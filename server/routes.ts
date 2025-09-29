@@ -27,7 +27,7 @@ const requireNotRejected = async (req: any, res: any, next: any) => {
     }
 
     // Check if user is admin (bypass check)
-    const user = await storage.getUserById(userId);
+    const user = await storage.getUser(userId);
     if (user && (user.role === 'admin' || ['admin', 'SoftwareHenry'].includes(user.username))) {
       return next();
     }
