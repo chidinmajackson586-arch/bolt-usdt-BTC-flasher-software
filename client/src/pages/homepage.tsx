@@ -40,7 +40,7 @@ export default function Homepage() {
         <nav className="bg-gray-900/50 backdrop-blur-md sticky top-0 z-50 border-b border-yellow-500/20">
           <div className="container mx-auto px-4 py-4">
             <div className="flex justify-between items-center">
-              <Link href="/home">
+              <Link href="/">
                 <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
                   <Zap className="h-8 w-8 text-yellow-500" />
                   <span className="text-2xl font-bold text-white">Bolt Flasher</span>
@@ -354,144 +354,6 @@ export default function Homepage() {
             </div>
           </section>
 
-        {/* Testimonials Section */}
-          <section className="py-20 bg-gray-800/30">
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-white mb-4">Trusted by Crypto Professionals</h2>
-                <p className="text-gray-400 text-lg">Real results from real users</p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"This platform revolutionized my crypto operations. Fast, secure, and incredibly professional."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">MJ</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Michael Johnson</p>
-                        <p className="text-gray-500 text-sm">Crypto Trader</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"The security features and 2FA implementation are top-notch. I trust this platform completely."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">SW</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Sarah Wilson</p>
-                        <p className="text-gray-500 text-sm">Financial Analyst</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"Support is excellent and the platform handles high-volume transactions flawlessly."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">DL</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">David Lee</p>
-                        <p className="text-gray-500 text-sm">Blockchain Developer</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </section>
-
-        {/* Testimonials Section */}
-          <section className="py-20 bg-gray-800/30">
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-white mb-4">Trusted by Crypto Professionals</h2>
-                <p className="text-gray-400 text-lg">Real results from real users</p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"This platform revolutionized my crypto operations. Fast, secure, and incredibly professional."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">MJ</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Michael Johnson</p>
-                        <p className="text-gray-500 text-sm">Crypto Trader</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"The security features and 2FA implementation are top-notch. I trust this platform completely."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">SW</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Sarah Wilson</p>
-                        <p className="text-gray-500 text-sm">Financial Analyst</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-500">
-                        {'★'.repeat(5)}
-                      </div>
-                    </div>
-                    <p className="text-gray-400 mb-4">"Support is excellent and the platform handles high-volume transactions flawlessly."</p>
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white font-semibold">DL</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">David Lee</p>
-                        <p className="text-gray-500 text-sm">Blockchain Developer</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </section>
-
         {/* Pricing CTA */}
         <section id="pricing" className="container mx-auto px-4 py-20">
           <div className="bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-2xl p-12 text-center">
@@ -501,12 +363,12 @@ export default function Homepage() {
               Get instant access to all premium features.
             </p>
             <div className="flex gap-4 justify-center">
-              <Link href="/pricing">
+              <Link href="/login">
                 <Button size="lg" className="bg-black hover:bg-gray-900 text-yellow-500 font-bold text-lg px-8 py-6">
                   View Premium Plan
                 </Button>
               </Link>
-              <Link href="/register">
+              <Link href="/login">
                 <Button size="lg" variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-yellow-500 dark:hover:text-yellow-600 text-lg px-8 py-6">
                   Create Account
                 </Button>
@@ -570,7 +432,7 @@ export default function Homepage() {
             <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
               Don't miss out on the most advanced flash crypto platform. Join thousands of successful users worldwide.
             </p>
-            <Link href="/register">
+            <Link href="/login">
               <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 text-yellow-950 dark:text-black font-bold text-lg px-12 py-6">
                 Get Started Now - Flash USDT, BTC, ETH
               </Button>
