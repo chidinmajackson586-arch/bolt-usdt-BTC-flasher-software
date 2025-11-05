@@ -77,6 +77,7 @@ function AppContent() {
       <>
         <Switch>
           <Route path="/login" component={Login} />
+          <Route path="/home" component={Homepage} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/faq" component={FAQ} />
