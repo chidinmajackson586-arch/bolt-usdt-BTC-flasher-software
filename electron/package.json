@@ -2,7 +2,13 @@
   "name": "bolt-crypto-flasher",
   "version": "1.0.0",
   "description": "Professional cryptocurrency flash transaction platform",
-  "main": "main.js",
+  {
+    "main": "electron/integrated-main.js",
+    "scripts": {
+      "start": "electron electron/integrated-main.js",
+      "dist": "electron-builder"
+    }
+  }
   "author": "Bolt Crypto Flasher",
   "license": "MIT",
   "homepage": "./",
