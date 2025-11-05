@@ -87,7 +87,9 @@ function AppContent() {
           <Route path="/blog" component={Blog} />
           <Route path="/knowledge-base" component={KnowledgeBase} />
           <Route path="/api-docs" component={APIDocs} />
-          <Route path="/" component={Homepage} />
+          <Route path="/">
+            <Redirect to="/home" />
+          </Route>
           <Route component={NotFound} />
         </Switch>
         <WhatsAppButton />
@@ -116,7 +118,7 @@ function AppContent() {
           user={user!}
           onSubscriptionComplete={checkSubscription}
           onLogout={logout}
-          onBackToHome={() => window.location.href = '/'}
+          onBackToHome={() => window.location.href = '/home'}
         />
         <Suspense fallback={null}>
           <TelegramSupport />
