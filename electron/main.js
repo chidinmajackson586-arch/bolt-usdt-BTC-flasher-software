@@ -2,11 +2,9 @@ const { app, BrowserWindow, Menu, shell, dialog } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const isDev = require('electron-is-dev');
-
 let mainWindow;
 let serverProcess;
 
-function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1400,
     height: 900,
@@ -107,7 +105,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-}
+
 
 function startServer() {
   const serverPath = isDev 
