@@ -51,7 +51,7 @@
     "linux": {
       "target": "AppImage",
       "icon": "assets/icon.png",
-      "category": "Finance"
+             "category": "Finance"
     }
   }
 }
