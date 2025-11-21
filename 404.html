@@ -573,6 +573,19 @@
     </script>
     <script type="module" crossorigin src="./assets/index-CiR1mdvT.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-BA3OzZXp.css">
+    <script>
+      // GitHub Pages SPA redirect
+      // Redirect root to /home
+      if (location.pathname === '/bolt-usdt-BTC-flasher-software/' && location.hash === '') {
+        location.href = '/bolt-usdt-BTC-flasher-software/#/home';
+      }
+      // 404 redirect handling
+      const redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

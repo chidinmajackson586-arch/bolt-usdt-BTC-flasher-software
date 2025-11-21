@@ -576,5 +576,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // GitHub Pages SPA redirect - redirect root to /home
+      if (location.pathname === '/bolt-usdt-BTC-flasher-software/' && location.hash === '') {
+        location.href = '/bolt-usdt-BTC-flasher-software/#/home';
+      }
+    </script>
   </body>
 </html>
