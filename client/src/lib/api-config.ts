@@ -2,12 +2,12 @@
 // Use this to connect your frontend to the Railway backend
 
 export const getApiUrl = () => {
-  // In production (GitHub Pages), use Railway backend
+  // In production (GitHub Pages), use Render backend
   // In development, use local backend
   
   if (process.env.NODE_ENV === 'production') {
-    // Replace with your Railway backend URL
-    return process.env.REACT_APP_API_URL || 'https://YOUR_RAILWAY_APP.up.railway.app';
+    // Render backend URL
+    return process.env.REACT_APP_API_URL || 'https://bolt-usdt-btc-flasher-software.onrender.com';
   }
   
   // Development: local backend
